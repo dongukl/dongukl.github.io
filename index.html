@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>임동욱 | ROS2 Robotics Developer</title>
+<meta name="description" content="임동욱 - ROS2 로봇 개발자 포트폴리오. TurtleBot4 멀티로봇, Isaac Sim 자동주유 프로젝트.">
+<style>
+  :root {
+    --font-mono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", Helvetica, Arial, sans-serif;
+
+    /* light (default): graph-paper blueprint */
+    --bg: #eef3f8;
+    --panel: #ffffff;
+    --panel-2: #e4edf6;
+    --line: #c7d7e6;
+    --ink: #16293b;
+    --ink-dim: #5b7387;
+    --signal: #b8641e;
+    --signal-ink: #ffffff;
+    --online: #1f9d6b;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0a1622;
+      --panel: #101f2e;
+      --panel-2: #16293d;
+      --line: #24415c;
+      --ink: #dce8f2;
+      --ink-dim: #7e97ab;
+      --signal: #ffb454;
+      --signal-ink: #1a1206;
+      --online: #3ddc97;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0a1622;
+    --panel: #101f2e;
+    --panel-2: #16293d;
+    --line: #24415c;
+    --ink: #dce8f2;
+    --ink-dim: #7e97ab;
+    --signal: #ffb454;
+    --signal-ink: #1a1206;
+    --online: #3ddc97;
+  }
+  :root[data-theme="light"] {
+    --bg: #eef3f8;
+    --panel: #ffffff;
+    --panel-2: #e4edf6;
+    --line: #c7d7e6;
+    --ink: #16293b;
+    --ink-dim: #5b7387;
+    --signal: #b8641e;
+    --signal-ink: #ffffff;
+    --online: #1f9d6b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible, .btn:focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 3px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 46px 46px;
+    opacity: 0.45;
+    mask-image: radial-gradient(ellipse 90% 65% at 50% 0%, #000 0%, transparent 78%);
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  nav {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--signal);
+  }
+  .navlinks { display: flex; gap: 26px; }
+  .navlinks a {
+    font-family: var(--font-mono);
+    color: var(--ink-dim);
+    font-size: 13px;
+    transition: color 0.15s;
+  }
+  .navlinks a:hover { color: var(--ink); }
+
+  section { padding: 88px 0; }
+
+  /* ---------- hero / nameplate ---------- */
+  .hero { padding-top: 108px; padding-bottom: 72px; }
+  .nameplate {
+    border: 1px solid var(--line);
+    background: var(--panel);
+    padding: 22px 26px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 32px;
+    margin-bottom: 30px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  .nameplate .field { display: flex; gap: 8px; align-items: baseline; }
+  .nameplate .k { color: var(--ink-dim); }
+  .nameplate .v { color: var(--ink); font-weight: 600; }
+  .status-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--online);
+    margin-right: 6px;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--online) 20%, transparent);
+  }
+
+  .hero h1 {
+    font-size: clamp(34px, 5.6vw, 56px);
+    font-weight: 800;
+    letter-spacing: -1.2px;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+  .hero h1 .accent { color: var(--signal); }
+  .hero p.role {
+    margin-top: 18px;
+    font-size: clamp(16px, 2vw, 18px);
+    color: var(--ink-dim);
+    max-width: 62ch;
+  }
+  .hero .cta {
+    margin-top: 32px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: var(--font-mono);
+    padding: 11px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--line);
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--ink);
+  }
+  .btn.primary {
+    background: var(--signal);
+    color: var(--signal-ink);
+    border-color: var(--signal);
+  }
+  .btn.primary:hover { filter: brightness(1.08); }
+  .btn.ghost:hover { border-color: var(--signal); color: var(--signal); }
+
+  /* ---------- section markers ---------- */
+  .marker {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ink-dim);
+    letter-spacing: 0.4px;
+    margin-bottom: 28px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  .marker .hi { color: var(--signal); }
+
+  #about p { color: var(--ink-dim); max-width: 66ch; font-size: 15.5px; }
+  #about p + p { margin-top: 14px; }
+  #about strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- skills: topic list ---------- */
+  .topic-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  .topic-table thead th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--ink-dim);
+    font-size: 11.5px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    padding: 0 14px 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  .topic-table tbody td {
+    padding: 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .topic-table tbody tr:last-child td { border-bottom: none; }
+  .topic-table td.topic {
+    font-family: var(--font-mono);
+    color: var(--signal);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .topic-table td.type {
+    font-family: var(--font-mono);
+    color: var(--ink-dim);
+    white-space: nowrap;
+  }
+  .topic-table td.desc { color: var(--ink-dim); }
+
+  /* ---------- projects ---------- */
+  .projects { display: flex; flex-direction: column; gap: 26px; }
+  .detect-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 30px 30px 26px;
+  }
+  .detect-card .p-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .detect-card h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+  .p-type {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+    white-space: nowrap;
+    padding-top: 4px;
+  }
+  .detect-card p.desc { color: var(--ink-dim); font-size: 15px; margin-bottom: 16px; max-width: 62ch; }
+
+  ul.highlights { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-bottom: 20px; }
+  ul.highlights li { font-size: 13.5px; color: var(--ink-dim); padding-left: 18px; position: relative; }
+  ul.highlights li::before { content: ">"; position: absolute; left: 0; color: var(--signal); font-family: var(--font-mono); }
+
+  .tech-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+  .tech-tags span {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--ink-dim);
+    border: 1px solid var(--line);
+    padding: 4px 9px;
+  }
+
+  .repo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--signal);
+    border-bottom: 1px solid transparent;
+  }
+  .repo-link:hover { border-bottom-color: var(--signal); }
+
+  /* ---------- contact: terminal ---------- */
+  .terminal {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 26px 28px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+  }
+  .terminal .prompt { color: var(--ink-dim); }
+  .terminal .cmd { color: var(--ink); }
+  .terminal .row { margin-top: 10px; padding-left: 18px; color: var(--ink-dim); }
+  .terminal .row .k { color: var(--signal); }
+  .terminal a { text-decoration: underline; text-underline-offset: 3px; }
+  .terminal a:hover { color: var(--signal); }
+  .cursor {
+    display: inline-block;
+    width: 8px; height: 15px;
+    background: var(--signal);
+    margin-left: 6px;
+    vertical-align: -2px;
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 26px 0;
+    text-align: center;
+    color: var(--ink-dim);
+    font-size: 12.5px;
+    font-family: var(--font-mono);
+  }
+
+  @media (max-width: 640px) {
+    .navlinks { display: none; }
+    section { padding: 60px 0; }
+    .topic-table { font-size: 12.5px; }
+    .topic-table td.desc { display: none; }
+    .topic-table thead th:last-child { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<header>
+  <nav>
+    <div class="logo">/lim_donguk</div>
+    <div class="navlinks">
+      <a href="#about">about</a>
+      <a href="#skills">skills</a>
+      <a href="#projects">projects</a>
+      <a href="#contact">contact</a>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="nameplate">
+      <div class="field"><span class="k">OPERATOR</span><span class="v">임동욱</span></div>
+      <div class="field"><span class="k">ROLE</span><span class="v">ROS2 Robotics Developer</span></div>
+      <div class="field"><span class="k">STATUS</span><span class="v"><span class="status-dot"></span>ACTIVE</span></div>
+    </div>
+    <h1>로봇을 움직이는<br><span class="accent">소프트웨어</span>를 만듭니다.</h1>
+    <p class="role">
+      시뮬레이션부터 실제 로봇까지, 다양한 플랫폼에서 동작하는 시스템을 만듭니다.<br>
+      자율주행 로봇(TurtleBot4)과 매니퓰레이터(Doosan M0609), Isaac Sim 시뮬레이션을 넘나들며
+      ROS2 기반 로봇 시스템을 직접 설계하고 구현합니다.
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="#projects">[ 프로젝트 보기 ]</a>
+      <a class="btn ghost" href="#contact">[ 연락하기 ]</a>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="marker">// <span class="hi">about</span></div>
+    <p>
+      <strong>ROS2</strong>를 중심으로 모바일 로봇, 매니퓰레이터, 시뮬레이션까지 로봇 개발의 전 영역을 다룹니다.
+    </p>
+    <p>
+      자율주행(<strong>Nav2</strong>), 객체 인식(<strong>YOLO</strong>), 로봇팔 제어(<strong>MoveIt2</strong>)를 직접 통합하며,
+      단일 로봇을 넘어 다중 로봇이 협업하는 시스템을 설계합니다.
+      <strong>Isaac Sim</strong>으로 검증하고 <strong>TurtleBot4</strong>·<strong>Doosan M0609</strong>로
+      실제 구동까지 완성하는 것을 목표로 합니다.
+    </p>
+  </section>
+
+  <section id="skills">
+    <div class="marker">// <span class="hi">skills</span> — ros2 topic list -t</div>
+    <table class="topic-table">
+      <thead>
+        <tr><th>topic</th><th>type</th><th>description</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="topic">/dev/ros2</td>
+          <td class="type">pkg/core</td>
+          <td class="desc">노드·토픽·서비스 설계, 멀티로봇 통신, launch 시스템 구성</td>
+        </tr>
+        <tr>
+          <td class="topic">/dev/python</td>
+          <td class="type">lang/core</td>
+          <td class="desc">로봇 제어 로직, 데이터 처리, 자동화 스크립트</td>
+        </tr>
+        <tr>
+          <td class="topic">/dev/yolo</td>
+          <td class="type">perception/cv</td>
+          <td class="desc">실시간 객체 탐지 기반 인식 파이프라인 구축</td>
+        </tr>
+        <tr>
+          <td class="topic">/dev/nav2</td>
+          <td class="type">nav/planning</td>
+          <td class="desc">자율주행 경로 계획, 장애물 회피, 로컬라이제이션</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="projects">
+    <div class="marker">// <span class="hi">projects</span></div>
+    <div class="projects">
+
+      <div class="detect-card">
+        <div class="p-header">
+          <h3>유해동물 퇴치 로봇 (FarmGuard)</h3>
+          <span class="p-type">multi-robot / autonomous patrol</span>
+        </div>
+        <p class="desc">
+          TurtleBot4 두 대가 협력해 농장에 침입한 야생동물을 탐지하고 게이트 밖으로
+          몰아낸 뒤 자동 도킹까지 수행하는 멀티로봇 시스템입니다.
+        </p>
+        <ul class="highlights">
+          <li>관제탑 웹캠 + YOLOv8·ByteTrack으로 동물을 탐지하고 map 좌표로 변환</li>
+          <li>호(Arc) 플랭킹 알고리즘으로 두 로봇이 좌우에서 협공해 게이트로 유도</li>
+          <li>우선순위 기반 충돌 예방(PVO)과 AMCL 거리 기반 안전 정지의 2중 안전장치</li>
+        </ul>
+        <div class="tech-tags">
+          <span>ROS2</span><span>TurtleBot4</span><span>YOLOv8</span><span>Nav2</span><span>Python</span>
+        </div>
+        <a class="repo-link" href="https://github.com/dongukl/farm_guard" target="_blank" rel="noopener">GitHub에서 코드 보기 →</a>
+      </div>
+
+      <div class="detect-card">
+        <div class="p-header">
+          <h3>Isaac Sim 자동주유 시스템</h3>
+          <span class="p-type">simulation / perception</span>
+        </div>
+        <p class="desc">
+          NVIDIA Isaac Sim 환경에서 로봇이 차량의 주유구를 인식하고
+          자동으로 주유 동작을 수행하는 시뮬레이션 시스템을 구현했습니다.
+        </p>
+        <ul class="highlights">
+          <li>Isaac Sim 가상 환경 구성 및 로봇 시나리오 시뮬레이션</li>
+          <li>YOLO 기반 주유구 위치 인식 및 좌표 추정</li>
+          <li>인식 결과를 로봇 제어 명령으로 연결하는 ROS2 파이프라인 구축</li>
+        </ul>
+        <div class="tech-tags">
+          <span>Isaac Sim</span><span>ROS2</span><span>YOLO</span><span>Python</span>
+        </div>
+        <a class="repo-link" href="https://github.com/dongukl/auto_fuel" target="_blank" rel="noopener">GitHub에서 코드 보기 →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="marker">// <span class="hi">contact</span></div>
+    <div class="terminal">
+      <div><span class="prompt">$</span> <span class="cmd">contact --operator 임동욱</span><span class="cursor"></span></div>
+      <div class="row"><span class="k">email</span> &nbsp;<a href="mailto:ouk279952@gmail.com">ouk279952@gmail.com</a></div>
+      <div class="row"><span class="k">github</span> &nbsp;<a href="https://github.com/dongukl" target="_blank" rel="noopener">github.com/dongukl</a></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  dongukl.github.io &middot; ROS2 Robotics Developer &middot; 2026
+</footer>
+
+</body>
+</html>
