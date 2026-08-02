@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>임동욱 | ROS2 Robotics Developer</title>
-<meta name="description" content="임동욱 - ROS2 로봇 개발자 포트폴리오. TurtleBot4 멀티로봇, Isaac Sim 자동주유 프로젝트.">
+<meta name="description" content="임동욱 - ROS2 기반 로봇 개발자 포트폴리오. TurtleBot4 멀티로봇, Doosan M0609 협동로봇, Isaac Sim 시뮬레이션 프로젝트.">
 <style>
   :root {
     --font-mono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
@@ -194,7 +194,8 @@
   /* ---------- section markers ---------- */
   .marker {
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 18px;
+    font-weight: 600;
     color: var(--ink-dim);
     letter-spacing: 0.4px;
     margin-bottom: 28px;
@@ -230,6 +231,16 @@
     vertical-align: top;
   }
   .topic-table tbody tr:last-child td { border-bottom: none; }
+  .skill-heading {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    margin: 36px 0 14px;
+  }
+  .skill-heading:first-of-type { margin-top: 0; }
+  .skill-heading--software,
+  .skill-heading--hardware { color: var(--ink); }
   .topic-table td.topic {
     font-family: var(--font-mono);
     color: var(--signal);
@@ -347,6 +358,7 @@
       <a href="#skills">skills</a>
       <a href="#projects">projects</a>
       <a href="#contact">contact</a>
+      <a href="https://donguklim.notion.site/3011d17d75e0815da092dbeeebc957b7" target="_blank" rel="noopener">notion</a>
     </div>
   </nav>
 </header>
@@ -355,15 +367,15 @@
 
   <section class="hero">
     <div class="nameplate">
-      <div class="field"><span class="k">OPERATOR</span><span class="v">임동욱</span></div>
+      <div class="field"><span class="k">ENGINEER</span><span class="v">임동욱</span></div>
       <div class="field"><span class="k">ROLE</span><span class="v">ROS2 Robotics Developer</span></div>
       <div class="field"><span class="k">STATUS</span><span class="v"><span class="status-dot"></span>ACTIVE</span></div>
     </div>
-    <h1>로봇을 움직이는<br><span class="accent">소프트웨어</span>를 만듭니다.</h1>
+    <h1>완성될 때까지,<br>몇 번이고 <span class="accent">수정하고 도전</span>합니다.</h1>
     <p class="role">
-      시뮬레이션부터 실제 로봇까지, 다양한 플랫폼에서 동작하는 시스템을 만듭니다.<br>
-      자율주행 로봇(TurtleBot4)과 매니퓰레이터(Doosan M0609), Isaac Sim 시뮬레이션을 넘나들며
-      ROS2 기반 로봇 시스템을 직접 설계하고 구현합니다.
+      Python부터 시작해 ROS2, Isaac Sim까지 직접 부딪히며 익혔습니다.<br>
+      TurtleBot4 멀티로봇, Doosan M0609 협동로봇, Isaac Sim 시뮬레이션에서
+      인식부터 제어, 안전 로직까지 직접 설계하고 구현합니다.
     </p>
     <div class="cta">
       <a class="btn primary" href="#projects">[ 프로젝트 보기 ]</a>
@@ -374,18 +386,15 @@
   <section id="about">
     <div class="marker">// <span class="hi">about</span></div>
     <p>
-      <strong>ROS2</strong>를 중심으로 모바일 로봇, 매니퓰레이터, 시뮬레이션까지 로봇 개발의 전 영역을 다룹니다.
-    </p>
-    <p>
-      자율주행(<strong>Nav2</strong>), 객체 인식(<strong>YOLO</strong>), 로봇팔 제어를 직접 통합하며,
-      단일 로봇을 넘어 다중 로봇이 협업하는 시스템을 설계합니다.
-      <strong>Isaac Sim</strong>으로 검증하고 <strong>TurtleBot4</strong>·<strong>Doosan M0609</strong>로
-      실제 구동까지 완성하는 것을 목표로 합니다.
+      새로운 것에 두려움 없이 도전하고, 이해될 때까지 파고드는 방식으로 학습해왔습니다.
+      막히는 순간마다 원인을 찾아 해결하는 과정을 반복하며 성장하는 것을 중요하게 생각합니다.
     </p>
   </section>
 
   <section id="skills">
-    <div class="marker">// <span class="hi">skills</span> — ros2 topic list -t</div>
+    <div class="marker">// <span class="hi">skills</span></div>
+
+    <h3 class="skill-heading skill-heading--software">Software</h3>
     <table class="topic-table">
       <thead>
         <tr><th>topic</th><th>type</th><th>description</th></tr>
@@ -394,22 +403,46 @@
         <tr>
           <td class="topic">/dev/ros2</td>
           <td class="type">pkg/core</td>
-          <td class="desc">노드·토픽·서비스 설계, 멀티로봇 통신, launch 시스템 구성</td>
+          <td class="desc">노드·토픽·서비스 설계, 멀티로봇 통신 구조, launch 시스템 구성</td>
         </tr>
         <tr>
           <td class="topic">/dev/python</td>
           <td class="type">lang/core</td>
-          <td class="desc">로봇 제어 로직, 데이터 처리, 자동화 스크립트</td>
+          <td class="desc">로봇 제어 로직, 인식 파이프라인, 자동화 스크립트 구현</td>
         </tr>
         <tr>
-          <td class="topic">/dev/yolo</td>
+          <td class="topic">/dev/vision</td>
           <td class="type">perception/cv</td>
-          <td class="desc">실시간 객체 탐지 기반 인식 파이프라인 구축</td>
+          <td class="desc">YOLOv11n 객체 탐지, ByteTrack ID 추적, OpenCV 좌표 변환</td>
         </tr>
         <tr>
           <td class="topic">/dev/nav2</td>
           <td class="type">nav/planning</td>
-          <td class="desc">자율주행 경로 계획, 장애물 회피, 로컬라이제이션</td>
+          <td class="desc">SLAM 기반 지도 매핑, AMCL 자율주행, 리커버리 로직 설계</td>
+        </tr>
+        <tr>
+          <td class="topic">/dev/isaac-sim</td>
+          <td class="type">sim/control</td>
+          <td class="desc">로봇팔 동작 시뮬레이션 검증, 관절 단위 직접 제어</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="skill-heading skill-heading--hardware">Hardware</h3>
+    <table class="topic-table">
+      <thead>
+        <tr><th>topic</th><th>type</th><th>description</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="topic">/dev/turtlebot4</td>
+          <td class="type">mobile robot</td>
+          <td class="desc">TurtleBot4(Create3) 2대 실물 구동, 자율주행 및 도킹 복귀</td>
+        </tr>
+        <tr>
+          <td class="topic">/dev/m0609</td>
+          <td class="type">manipulator</td>
+          <td class="desc">Doosan M0609 협동로봇 실물 구동, DART Studio 티칭펜던트로 관절 좌표 정밀 제어</td>
         </tr>
       </tbody>
     </table>
@@ -421,40 +454,60 @@
 
       <div class="detect-card">
         <div class="p-header">
-          <h3>유해동물 퇴치 로봇 (FarmGuard)</h3>
-          <span class="p-type">multi-robot / autonomous patrol</span>
+          <h3>AI Vision을 활용한 TurtleBot4 멀티로봇</h3>
+          <span class="p-type">유해동물 퇴치 시스템</span>
         </div>
         <p class="desc">
-          TurtleBot4 두 대가 협력해 농장에 침입한 야생동물을 탐지하고 게이트 밖으로
-          몰아낸 뒤 자동 도킹까지 수행하는 멀티로봇 시스템입니다.
+          TurtleBot4 두 대가 웹캠으로 침입 동물을 탐지해 호(Arc) 플랭킹으로
+          게이트까지 몰아내는 유해동물 퇴치 시스템입니다.
         </p>
         <ul class="highlights">
-          <li>관제탑 웹캠 + YOLOv8·ByteTrack으로 동물을 탐지하고 map 좌표로 변환</li>
-          <li>호(Arc) 플랭킹 알고리즘으로 두 로봇이 좌우에서 협공해 게이트로 유도</li>
-          <li>우선순위 기반 충돌 예방(PVO)과 AMCL 거리 기반 안전 정지의 2중 안전장치</li>
+          <li>관제탑 웹캠 + YOLOv11n·ByteTrack으로 동물을 탐지하고 호모그래피로 map 좌표 변환</li>
+          <li>SLAM으로 사전 매핑한 지도 위에 Nav2 AMCL 자율주행 구현, 호(Arc) 플랭킹으로 두 로봇이 협공해 게이트로 유도</li>
+          <li>우선순위 기반 충돌 예방(PVO)과 SAFE_STOP 이중 안전장치로 두 로봇 간 충돌 없이 동작</li>
         </ul>
         <div class="tech-tags">
-          <span>ROS2</span><span>TurtleBot4</span><span>YOLOv8</span><span>Nav2</span><span>Python</span>
+          <span>ROS2</span><span>TurtleBot4</span><span>YOLOv11n</span><span>Nav2 · SLAM</span><span>Python</span>
         </div>
         <a class="repo-link" href="https://github.com/dongukl/farm_guard" target="_blank" rel="noopener">GitHub에서 코드 보기 →</a>
       </div>
 
       <div class="detect-card">
         <div class="p-header">
-          <h3>Isaac Sim 자동주유 시스템</h3>
-          <span class="p-type">simulation / perception</span>
+          <h3>ROS2 기반 Doosan M0609 로봇팔</h3>
+          <span class="p-type">자동 조리 시스템</span>
         </div>
         <p class="desc">
-          NVIDIA Isaac Sim 환경에서 로봇이 차량의 주유구를 인식하고
-          자동으로 주유 동작을 수행하는 시뮬레이션 시스템을 구현했습니다.
+          두산 M0609 협동로봇이 QR 주문을 받아 부침개·볶음밥을 직접 조리하는
+          테이블 오더 시스템입니다.
         </p>
         <ul class="highlights">
-          <li>Isaac Sim 가상 환경 구성 및 로봇 시나리오 시뮬레이션</li>
-          <li>YOLO 기반 주유구 위치 인식 및 좌표 추정</li>
-          <li>인식 결과를 로봇 제어 명령으로 연결하는 ROS2 파이프라인 구축</li>
+          <li>DART Studio 티칭펜던트로 웍질·부침개 뒤집기 동작의 관절 좌표 정밀 맵핑</li>
+          <li>J5 단독 회전 시 관절 최대속도 제한에 부딪혀 J2·J3·J5로 회전을 분산시켜 TCP 속도 확보, 뒤집기 성공률 100% 달성</li>
+          <li>손님용 QR 주문 페이지 + 관리자 대시보드(실시간 조리 상태 모니터링) 프론트엔드 개발</li>
         </ul>
         <div class="tech-tags">
-          <span>Isaac Sim</span><span>ROS2</span><span>YOLO</span><span>Python</span>
+          <span>ROS2</span><span>Doosan M0609</span><span>DART Studio</span><span>Flask</span><span>Python</span>
+        </div>
+        <a class="repo-link" href="https://github.com/dongukl/wokking_robot" target="_blank" rel="noopener">GitHub에서 코드 보기 →</a>
+      </div>
+
+      <div class="detect-card">
+        <div class="p-header">
+          <h3>Isaac Sim 기반 디지털 트윈 시뮬레이션</h3>
+          <span class="p-type">자동 주유 시스템</span>
+        </div>
+        <p class="desc">
+          Isaac Sim 기반 Doosan M0609 로봇팔 2대가 협업하여 차량 주유구 인식부터
+          노즐 삽입까지 자동 수행하는 주유 시뮬레이션 시스템입니다.
+        </p>
+        <ul class="highlights">
+          <li>ArUco 마커 인식 기반으로 로봇팔 두 대가 마개 제거부터 노즐 삽입, 마개 복원까지 이어지는 11단계 시퀀스 구현</li>
+          <li>RMPFlow로 특정 관절만 제어할 수 없는 한계를 발견해 ArticulationAction으로 직접 제어하는 방식으로 전환</li>
+          <li>삽입 방향 법선 벡터 기준 orientation 고정, FastAPI+SSE 기반 웹 연동으로 실시간 진행 상태 확인</li>
+        </ul>
+        <div class="tech-tags">
+          <span>Isaac Sim</span><span>ROS2</span><span>OpenCV · ArUco</span><span>FastAPI</span><span>Python</span>
         </div>
         <a class="repo-link" href="https://github.com/dongukl/auto_fuel" target="_blank" rel="noopener">GitHub에서 코드 보기 →</a>
       </div>
@@ -465,9 +518,10 @@
   <section id="contact">
     <div class="marker">// <span class="hi">contact</span></div>
     <div class="terminal">
-      <div><span class="prompt">$</span> <span class="cmd">contact --operator 임동욱</span><span class="cursor"></span></div>
-      <div class="row"><span class="k">email</span> &nbsp;<a href="mailto:ouk279952@gmail.com">ouk279952@gmail.com</a></div>
+      <div><span class="prompt">$</span> <span class="cmd">contact --engineer 임동욱</span><span class="cursor"></span></div>
+      <div class="row"><span class="k">email</span> &nbsp;<a href="mailto:donguklim.dev@gmail.com">donguklim.dev@gmail.com</a></div>
       <div class="row"><span class="k">github</span> &nbsp;<a href="https://github.com/dongukl" target="_blank" rel="noopener">github.com/dongukl</a></div>
+      <div class="row"><span class="k">notion</span> &nbsp;<a href="https://donguklim.notion.site/3011d17d75e0815da092dbeeebc957b7" target="_blank" rel="noopener">donguklim.notion.site</a></div>
     </div>
   </section>
 
