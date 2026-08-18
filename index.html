@@ -386,17 +386,14 @@
   <section id="about">
     <div class="marker">// <span class="hi">about</span></div>
     <p>
-<<<<<<< HEAD
       새로운 것에 두려움 없이 도전하고, 이해될 때까지 파고드는 방식으로 학습해왔습니다.
       막히는 순간마다 원인을 찾아 해결하는 과정을 반복하며 성장하는 것을 중요하게 생각합니다.
-=======
       <strong>ROS2</strong>를 중심으로 자율 주행 로봇, 매니퓰레이터, 시뮬레이션까지 로봇 개발의 전 영역을 다루고 공부하고 있습니다.
     </p>
     <p>
-      ROS2 기반 로봇 시스템을 설계하고 구현하며, 개발 과정에서 발생하는 문제의 원인을 분석하고 해결하는 역량을 키웠습니다. 
+      ROS2 기반 로봇 시스템을 설계하고 구현하며, 개발 과정에서 발생하는 문제의 원인을 분석하고 해결하는 역량을 키웠습니다.
       TurtleBot4 멀티로봇 자율주행, Doosan M0609 매니퓰레이터, Isaac Sim 기반 시뮬레이션
       프로젝트를 수행하며 소프트웨어 디버깅과 시스템 통합 경험을 쌓았습니다.
->>>>>>> 526bcc3d9cf8a8db62eba21e30b30ac842d1dc28
     </p>
   </section>
 
@@ -519,6 +516,27 @@
           <span>Isaac Sim</span><span>ROS2</span><span>OpenCV · ArUco</span><span>FastAPI</span><span>Python</span>
         </div>
         <a class="repo-link" href="https://github.com/dongukl/auto_fuel" target="_blank" rel="noopener">GitHub에서 코드 보기 →</a>
+      </div>
+
+      <div class="detect-card">
+        <div class="p-header">
+          <h3>Ditto — 사람 시연 기반 로봇 스킬 학습·실행 시스템</h3>
+          <span class="p-type">협동로봇 스킬 학습</span>
+        </div>
+        <p class="desc">
+          사람이 도구를 한 번 시연하면 그 궤적을 로봇이 재현 가능한 스킬로 변환하고,
+          이후에는 음성 명령("망치질 해줘")만으로 그 스킬을 불러 실행하는 Doosan M0609
+          협동로봇 시스템입니다.
+        </p>
+        <ul class="highlights">
+          <li>비전 파이프라인 전담: MediaPipe Hands로 파지 판정 → GroundingDINO+MobileSAM으로 도구 1회 검출 → CoTracker3 online으로 연속 keypoint 추적 → RealSense depth + RANSAC/Kabsch로 도구 6DoF pose 추정</li>
+          <li>CoTracker online API의 프레임 손실 문제를 직접 발견해 유효 pose FPS를 카메라 FPS 수준까지 개선, SAM 마스크 두께 비대칭으로 도구 머리 방향(앞/뒤)까지 판정</li>
+          <li>GPT(gpt-4o)로 세그먼트별 move_type·속도·blend를 결정하는 스킬 코드 생성 단계 설계 — 좌표는 실측값만 사용해 LLM이 좌표를 지어낼 여지를 구조적으로 차단</li>
+        </ul>
+        <div class="tech-tags">
+          <span>ROS2</span><span>Doosan M0609</span><span>CoTracker3</span><span>GroundingDINO · MobileSAM</span><span>GPT-4o</span><span>Python</span>
+        </div>
+        <a class="repo-link" href="https://github.com/dongukl/dittobot" target="_blank" rel="noopener">GitHub에서 코드 보기 →</a>
       </div>
 
     </div>
