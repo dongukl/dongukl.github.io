@@ -1,562 +1,371 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>임동욱 | ROS2 Robotics Developer</title>
-<meta name="description" content="임동욱 - ROS2 기반 로봇 개발자 포트폴리오. TurtleBot4 멀티로봇, Doosan M0609 협동로봇, Isaac Sim 시뮬레이션 프로젝트.">
-<style>
-  :root {
-    --font-mono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", Helvetica, Arial, sans-serif;
-
-    /* light (default): graph-paper blueprint */
-    --bg: #eef3f8;
-    --panel: #ffffff;
-    --panel-2: #e4edf6;
-    --line: #c7d7e6;
-    --ink: #16293b;
-    --ink-dim: #5b7387;
-    --signal: #b8641e;
-    --signal-ink: #ffffff;
-    --online: #1f9d6b;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #0a1622;
-      --panel: #101f2e;
-      --panel-2: #16293d;
-      --line: #24415c;
-      --ink: #dce8f2;
-      --ink-dim: #7e97ab;
-      --signal: #ffb454;
-      --signal-ink: #1a1206;
-      --online: #3ddc97;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #0a1622;
-    --panel: #101f2e;
-    --panel-2: #16293d;
-    --line: #24415c;
-    --ink: #dce8f2;
-    --ink-dim: #7e97ab;
-    --signal: #ffb454;
-    --signal-ink: #1a1206;
-    --online: #3ddc97;
-  }
-  :root[data-theme="light"] {
-    --bg: #eef3f8;
-    --panel: #ffffff;
-    --panel-2: #e4edf6;
-    --line: #c7d7e6;
-    --ink: #16293b;
-    --ink-dim: #5b7387;
-    --signal: #b8641e;
-    --signal-ink: #ffffff;
-    --online: #1f9d6b;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
-  }
-
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: var(--font-sans);
-    line-height: 1.65;
-    overflow-x: hidden;
-  }
-  a { color: inherit; }
-  a:focus-visible, button:focus-visible, .btn:focus-visible {
-    outline: 2px solid var(--signal);
-    outline-offset: 3px;
-  }
-  .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
-
-  .bg-grid {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background-color: var(--bg);
-    background-image:
-      linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 46px 46px;
-    opacity: 0.45;
-    mask-image: radial-gradient(ellipse 90% 65% at 50% 0%, #000 0%, transparent 78%);
-  }
-
-  header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    backdrop-filter: blur(8px);
-    background: color-mix(in srgb, var(--bg) 82%, transparent);
-    border-bottom: 1px solid var(--line);
-  }
-  nav {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 16px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .logo {
-    font-family: var(--font-mono);
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--signal);
-  }
-  .navlinks { display: flex; gap: 26px; }
-  .navlinks a {
-    font-family: var(--font-mono);
-    color: var(--ink-dim);
-    font-size: 13px;
-    transition: color 0.15s;
-  }
-  .navlinks a:hover { color: var(--ink); }
-
-  section { padding: 88px 0; }
-
-  /* ---------- hero / nameplate ---------- */
-  .hero { padding-top: 108px; padding-bottom: 72px; }
-  .nameplate {
-    border: 1px solid var(--line);
-    background: var(--panel);
-    padding: 22px 26px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 32px;
-    margin-bottom: 30px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-  }
-  .nameplate .field { display: flex; gap: 8px; align-items: baseline; }
-  .nameplate .k { color: var(--ink-dim); }
-  .nameplate .v { color: var(--ink); font-weight: 600; }
-  .status-dot {
-    display: inline-block;
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--online);
-    margin-right: 6px;
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--online) 20%, transparent);
-  }
-
-  .hero h1 {
-    font-size: clamp(34px, 5.6vw, 56px);
-    font-weight: 800;
-    letter-spacing: -1.2px;
-    line-height: 1.2;
-    text-wrap: balance;
-  }
-  .hero h1 .accent { color: var(--signal); }
-  .hero p.role {
-    margin-top: 18px;
-    font-size: clamp(16px, 2vw, 18px);
-    color: var(--ink-dim);
-    max-width: 62ch;
-  }
-  .hero .cta {
-    margin-top: 32px;
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .btn {
-    font-family: var(--font-mono);
-    padding: 11px 20px;
-    font-size: 13px;
-    font-weight: 600;
-    border: 1px solid var(--line);
-    transition: all 0.15s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: transparent;
-    color: var(--ink);
-  }
-  .btn.primary {
-    background: var(--signal);
-    color: var(--signal-ink);
-    border-color: var(--signal);
-  }
-  .btn.primary:hover { filter: brightness(1.08); }
-  .btn.ghost:hover { border-color: var(--signal); color: var(--signal); }
-
-  /* ---------- section markers ---------- */
-  .marker {
-    font-family: var(--font-mono);
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--ink-dim);
-    letter-spacing: 0.4px;
-    margin-bottom: 28px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--line);
-  }
-  .marker .hi { color: var(--signal); }
-
-  #about p { color: var(--ink-dim); max-width: 66ch; font-size: 15.5px; }
-  #about p + p { margin-top: 14px; }
-  #about strong { color: var(--ink); font-weight: 600; }
-
-  /* ---------- skills: topic list ---------- */
-  .topic-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13.5px;
-  }
-  .topic-table thead th {
-    text-align: left;
-    font-family: var(--font-mono);
-    font-weight: 600;
-    color: var(--ink-dim);
-    font-size: 11.5px;
-    letter-spacing: 0.6px;
-    text-transform: uppercase;
-    padding: 0 14px 10px;
-    border-bottom: 1px solid var(--line);
-  }
-  .topic-table tbody td {
-    padding: 14px;
-    border-bottom: 1px solid var(--line);
-    vertical-align: top;
-  }
-  .topic-table tbody tr:last-child td { border-bottom: none; }
-  .skill-heading {
-    font-family: var(--font-mono);
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: 0.3px;
-    margin: 36px 0 14px;
-  }
-  .skill-heading:first-of-type { margin-top: 0; }
-  .skill-heading--software,
-  .skill-heading--hardware { color: var(--ink); }
-  .topic-table td.topic {
-    font-family: var(--font-mono);
-    color: var(--signal);
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  .topic-table td.type {
-    font-family: var(--font-mono);
-    color: var(--ink-dim);
-    white-space: nowrap;
-  }
-  .topic-table td.desc { color: var(--ink-dim); }
-
-  /* ---------- projects ---------- */
-  .projects { display: flex; flex-direction: column; gap: 26px; }
-  .detect-card {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    padding: 30px 30px 26px;
-  }
-  .detect-card .p-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-  .detect-card h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
-  .p-type {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--ink-dim);
-    white-space: nowrap;
-    padding-top: 4px;
-  }
-  .detect-card p.desc { color: var(--ink-dim); font-size: 15px; margin-bottom: 16px; max-width: 62ch; }
-
-  ul.highlights { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-bottom: 20px; }
-  ul.highlights li { font-size: 13.5px; color: var(--ink-dim); padding-left: 18px; position: relative; }
-  ul.highlights li::before { content: ">"; position: absolute; left: 0; color: var(--signal); font-family: var(--font-mono); }
-
-  .tech-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
-  .tech-tags span {
-    font-family: var(--font-mono);
-    font-size: 11.5px;
-    color: var(--ink-dim);
-    border: 1px solid var(--line);
-    padding: 4px 9px;
-  }
-
-  .repo-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--signal);
-    border-bottom: 1px solid transparent;
-  }
-  .repo-link:hover { border-bottom-color: var(--signal); }
-
-  /* ---------- contact: terminal ---------- */
-  .terminal {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    padding: 26px 28px;
-    font-family: var(--font-mono);
-    font-size: 14px;
-  }
-  .terminal .prompt { color: var(--ink-dim); }
-  .terminal .cmd { color: var(--ink); }
-  .terminal .row { margin-top: 10px; padding-left: 18px; color: var(--ink-dim); }
-  .terminal .row .k { color: var(--signal); }
-  .terminal a { text-decoration: underline; text-underline-offset: 3px; }
-  .terminal a:hover { color: var(--signal); }
-  .cursor {
-    display: inline-block;
-    width: 8px; height: 15px;
-    background: var(--signal);
-    margin-left: 6px;
-    vertical-align: -2px;
-    animation: blink 1s steps(1) infinite;
-  }
-  @keyframes blink { 50% { opacity: 0; } }
-
-  footer {
-    border-top: 1px solid var(--line);
-    padding: 26px 0;
-    text-align: center;
-    color: var(--ink-dim);
-    font-size: 12.5px;
-    font-family: var(--font-mono);
-  }
-
-  @media (max-width: 640px) {
-    .navlinks { display: none; }
-    section { padding: 60px 0; }
-    .topic-table { font-size: 12.5px; }
-    .topic-table td.desc { display: none; }
-    .topic-table thead th:last-child { display: none; }
-  }
-</style>
+<title>임동욱 | Robotics Engineer</title>
+<meta name="description" content="임동욱 — 인식부터 제어, 안전까지 실제 로봇으로 검증하며 만드는 로보틱스 엔지니어. TurtleBot4 멀티로봇, Doosan M0609 협동로봇, Isaac Sim 시뮬레이션 프로젝트.">
+<meta property="og:title" content="임동욱 | Robotics Engineer">
+<meta property="og:description" content="인식부터 제어, 안전까지 실제 로봇으로 검증하며 만드는 로보틱스 엔지니어">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="assets/style.css">
+<script>
+  (function () {
+    try {
+      var s = localStorage.getItem("theme");
+      if (!s) s = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", s);
+    } catch (e) {}
+  })();
+</script>
 </head>
 <body>
 
-<div class="bg-grid"></div>
-
 <header>
   <nav>
-    <div class="logo">/lim_donguk</div>
+    <a class="logo" href="index.html">donguklim.</a>
     <div class="navlinks">
-      <a href="#about">about</a>
-      <a href="#skills">skills</a>
-      <a href="#projects">projects</a>
-      <a href="#contact">contact</a>
-      <a href="https://donguklim.notion.site/3011d17d75e0815da092dbeeebc957b7" target="_blank" rel="noopener">notion</a>
+      <a href="#about">About</a>
+      <a href="#stack" data-optional>Stack</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <a href="https://donguklim.notion.site/3011d17d75e0815da092dbeeebc957b7" target="_blank" rel="noopener" data-optional>Notion</a>
+      <button class="theme-toggle" type="button" aria-label="테마 전환">🌙</button>
     </div>
   </nav>
 </header>
 
-<main class="wrap">
+<main>
 
+  <!-- ================= HERO ================= -->
   <section class="hero">
-    <div class="nameplate">
-      <div class="field"><span class="k">ENGINEER</span><span class="v">임동욱</span></div>
-      <div class="field"><span class="k">ROLE</span><span class="v">ROS2 Robotics Developer</span></div>
-      <div class="field"><span class="k">STATUS</span><span class="v"><span class="status-dot"></span>ACTIVE</span></div>
-    </div>
-    <h1>완성될 때까지,<br>몇 번이고 <span class="accent">수정하고 도전</span>합니다.</h1>
-    <p class="role">
-      Python부터 시작해 ROS2, Isaac Sim까지 직접 부딪히며 익혔습니다.<br>
-      TurtleBot4 멀티로봇, Doosan M0609 협동로봇, Isaac Sim 시뮬레이션에서
-      인식부터 제어, 안전 로직까지 직접 설계하고 구현합니다.
-    </p>
-    <div class="cta">
-      <a class="btn primary" href="#projects">[ 프로젝트 보기 ]</a>
-      <a class="btn ghost" href="#contact">[ 연락하기 ]</a>
+    <div class="wrap">
+      <span class="eyebrow">Robotics Engineer</span>
+      <h1>임동욱 · Donguk Lim</h1>
+      <p class="tagline">인식부터 제어, 안전까지 실제 로봇으로 검증하며 만듭니다.</p>
+      <p class="lede">
+        ROS2를 중심으로 비전 인식, 자율주행, 매니퓰레이터 제어, 시뮬레이션을 하나의 시스템으로 연결합니다.
+        TurtleBot4 · Doosan M0609 · Isaac Sim에서 4개의 팀 프로젝트를 수행하며,
+        시뮬레이션에서 검증한 구조를 실제 로봇 구동까지 이어왔습니다.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="#projects">Projects</a>
+        <a class="btn" href="assets/resume/donguk_resume.pdf" target="_blank" rel="noopener">Resume</a>
+        <a class="btn" href="https://github.com/dongukl" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://donguklim.notion.site/3011d17d75e0815da092dbeeebc957b7" target="_blank" rel="noopener">Notion</a>
+        <a class="btn" href="#contact">Contact</a>
+      </div>
     </div>
   </section>
 
+  <!-- ================= ABOUT ================= -->
   <section id="about">
-    <div class="marker">// <span class="hi">about</span></div>
-    <p>
-      새로운 것에 두려움 없이 도전하고, 이해될 때까지 파고드는 방식으로 학습해왔습니다.
-      막히는 순간마다 원인을 찾아 해결하는 과정을 반복하며 성장하는 것을 중요하게 생각합니다.
-      <strong>ROS2</strong>를 중심으로 자율 주행 로봇, 매니퓰레이터, 시뮬레이션까지 로봇 개발의 전 영역을 다루고 공부하고 있습니다.
-    </p>
-    <p>
-      ROS2 기반 로봇 시스템을 설계하고 구현하며, 개발 과정에서 발생하는 문제의 원인을 분석하고 해결하는 역량을 키웠습니다.
-      TurtleBot4 멀티로봇 자율주행, Doosan M0609 매니퓰레이터, Isaac Sim 기반 시뮬레이션
-      프로젝트를 수행하며 소프트웨어 디버깅과 시스템 통합 경험을 쌓았습니다.
-    </p>
-  </section>
-
-  <section id="skills">
-    <div class="marker">// <span class="hi">skills</span></div>
-
-    <h3 class="skill-heading skill-heading--software">Software</h3>
-    <table class="topic-table">
-      <thead>
-        <tr><th>topic</th><th>type</th><th>description</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="topic">/dev/ros2</td>
-          <td class="type">pkg/core</td>
-          <td class="desc">노드·토픽·서비스 설계, 멀티로봇 통신 구조, launch 시스템 구성</td>
-        </tr>
-        <tr>
-          <td class="topic">/dev/python</td>
-          <td class="type">lang/core</td>
-          <td class="desc">로봇 제어 로직, 인식 파이프라인, 자동화 스크립트 구현</td>
-        </tr>
-        <tr>
-          <td class="topic">/dev/vision</td>
-          <td class="type">perception/cv</td>
-          <td class="desc">YOLOv11n 객체 탐지, ByteTrack ID 추적, OpenCV 좌표 변환</td>
-        </tr>
-        <tr>
-          <td class="topic">/dev/nav2</td>
-          <td class="type">nav/planning</td>
-          <td class="desc">SLAM 기반 지도 매핑, AMCL 자율주행, 리커버리 로직 설계</td>
-        </tr>
-        <tr>
-          <td class="topic">/dev/isaac-sim</td>
-          <td class="type">sim/control</td>
-          <td class="desc">로봇팔 동작 시뮬레이션 검증, 관절 단위 직접 제어</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h3 class="skill-heading skill-heading--hardware">Hardware</h3>
-    <table class="topic-table">
-      <thead>
-        <tr><th>topic</th><th>type</th><th>description</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="topic">/dev/turtlebot4</td>
-          <td class="type">mobile robot</td>
-          <td class="desc">TurtleBot4(Create3) 2대 실물 구동, 자율주행 및 도킹 복귀</td>
-        </tr>
-        <tr>
-          <td class="topic">/dev/m0609</td>
-          <td class="type">manipulator</td>
-          <td class="desc">Doosan M0609 협동로봇 실물 구동, DART Studio 티칭펜던트로 관절 좌표 정밀 제어</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section id="projects">
-    <div class="marker">// <span class="hi">projects</span></div>
-    <div class="projects">
-
-      <div class="detect-card">
-        <div class="p-header">
-          <h3>AI Vision을 활용한 TurtleBot4 멀티로봇</h3>
-          <span class="p-type">유해동물 퇴치 시스템</span>
-        </div>
-        <p class="desc">
-          TurtleBot4 두 대가 웹캠으로 침입 동물을 탐지해 호(Arc) 플랭킹으로
-          게이트까지 몰아내는 유해동물 퇴치 시스템입니다.
-        </p>
-        <ul class="highlights">
-          <li>관제탑 웹캠 + YOLOv11n·ByteTrack으로 동물을 탐지하고 호모그래피로 map 좌표 변환</li>
-          <li>SLAM으로 사전 매핑한 지도 위에 Nav2 AMCL 자율주행 구현, 호(Arc) 플랭킹으로 두 로봇이 협공해 게이트로 유도</li>
-          <li>우선순위 기반 충돌 예방(PVO)과 SAFE_STOP 이중 안전장치로 두 로봇 간 충돌 없이 동작</li>
-        </ul>
-        <div class="tech-tags">
-          <span>ROS2</span><span>TurtleBot4</span><span>YOLOv11n</span><span>Nav2 · SLAM</span><span>Python</span>
-        </div>
-        <a class="repo-link" href="https://github.com/dongukl/farm_guard" target="_blank" rel="noopener">GitHub에서 코드 보기 →</a>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">About</span>
+        <h2>About Me</h2>
+        <p class="sec-sub">조소에서 로봇으로 — 재료가 바뀌었을 뿐, 만드는 방식은 같습니다.</p>
       </div>
 
-      <div class="detect-card">
-        <div class="p-header">
-          <h3>ROS2 기반 Doosan M0609 로봇팔</h3>
-          <span class="p-type">자동 조리 시스템</span>
-        </div>
-        <p class="desc">
-          두산 M0609 협동로봇이 QR 주문을 받아 부침개·볶음밥을 직접 조리하는
-          테이블 오더 시스템입니다.
-        </p>
-        <ul class="highlights">
-          <li>DART Studio 티칭펜던트로 웍질·부침개 뒤집기 동작의 관절 좌표 정밀 맵핑</li>
-          <li>J5 단독 회전 시 관절 최대속도 제한에 부딪혀 J2·J3·J5로 회전을 분산시켜 TCP 속도 확보, 뒤집기 성공률 100% 달성</li>
-          <li>손님용 QR 주문 페이지 + 관리자 대시보드(실시간 조리 상태 모니터링) 프론트엔드 개발</li>
-        </ul>
-        <div class="tech-tags">
-          <span>ROS2</span><span>Doosan M0609</span><span>DART Studio</span><span>Flask</span><span>Python</span>
-        </div>
-        <a class="repo-link" href="https://github.com/dongukl/wokking_robot" target="_blank" rel="noopener">GitHub에서 코드 보기 →</a>
-      </div>
+      <p class="about-lead">
+        <strong>머릿속 아이디어를 실제로 만들어보고, 실패하는 지점을 찾아 고쳐나가는 방식으로 일합니다.</strong>
+      </p>
+      <p class="about-lead">
+        조소를 전공하며 가장 즐거웠던 것은 완성된 작품 자체보다, 머릿속 아이디어를 손으로 구현해나가는 과정이었습니다.
+        재료를 만지며 형태를 잡고, 의도한 대로 나오지 않으면 다시 깎고 붙이며 수정하는 반복 속에서
+        생각을 물질로 검증하는 방식에 익숙해졌습니다.
+      </p>
+      <p class="about-lead">
+        진로를 고민하며 현실적인 벽에 부딪혔습니다. 예술만으로 안정적인 진로를 만들기 어렵다는 것을 알게 되었고,
+        다른 분야를 탐색하던 중 로봇 개발을 접했습니다. 처음에는 전혀 다른 영역이라 생각했지만,
+        실제로 로봇 개발 프로젝트를 경험하며 생각이 바뀌었습니다.
+      </p>
+      <p class="about-lead">
+        로봇이 해결해야 할 문제를 정의하고, 그 문제를 풀기 위한 아이디어를 구조와 동작으로 구현한 뒤,
+        실제 환경에서 실패하는 지점을 찾아 계속 수정해나가는 과정은
+        조소에서 형태를 만들고 다시 고쳐나가던 과정과 본질적으로 다르지 않았습니다.
+        다른 점이 있다면 다루는 재료가 흙과 철사에서 <strong>모터, 센서, 코드</strong>로 바뀌었을 뿐입니다.
+      </p>
+      <p class="about-lead">
+        오히려 조소를 통해 익힌 공간 지각력과, 눈에 보이는 결과물을 통해 판단하고 수정하는 태도는
+        로봇의 구조를 설계하고 동작을 다듬는 과정에서 실질적인 도움이 되었습니다.
+        그래서 저에게 미술에서 로봇 개발로의 전환은 관심사의 포기가 아니라,
+        <strong>같은 사고방식을 더 넓은 문제 영역에 적용한 자연스러운 확장</strong>이라고 생각합니다.
+      </p>
 
-      <div class="detect-card">
-        <div class="p-header">
-          <h3>디지털 트윈 기반 Issac sim 시뮬레이션</h3>
-          <span class="p-type">자동 주유 시스템</span>
+      <div class="cap-grid">
+        <div class="cap">
+          <span class="cap-label">Core Competency 01</span>
+          <h3>System Integration</h3>
+          <p>ROS2·Python 기반 시스템 설계 및 인터페이스 설계로, 분리된 로봇 기능을 하나의 실행 흐름으로 연결합니다.</p>
         </div>
-        <p class="desc">
-          Isaac Sim 기반 Doosan M0609 로봇팔 2대가 협업하여 차량 주유구 인식부터
-          노즐 삽입까지 자동 수행하는 주유 시뮬레이션 시스템입니다.
-        </p>
-        <ul class="highlights">
-          <li>ArUco 마커 인식 기반으로 로봇팔 두 대가 마개 제거부터 노즐 삽입, 마개 복원까지 이어지는 11단계 시퀀스 구현</li>
-          <li>RMPFlow로 특정 관절만 제어할 수 없는 한계를 발견해 ArticulationAction으로 직접 제어하는 방식으로 전환</li>
-          <li>삽입 방향 법선 벡터 기준 orientation 고정, FastAPI+SSE 기반 웹 연동으로 실시간 진행 상태 확인</li>
-        </ul>
-        <div class="tech-tags">
-          <span>Isaac Sim</span><span>ROS2</span><span>OpenCV · ArUco</span><span>FastAPI</span><span>Python</span>
+        <div class="cap">
+          <span class="cap-label">Core Competency 02</span>
+          <h3>Robot Operation</h3>
+          <p>TurtleBot4 · Doosan M0609 실기체를 직접 운용하고, Isaac Sim 기반으로 시스템을 검증합니다.</p>
         </div>
-        <a class="repo-link" href="https://github.com/dongukl/auto_fuel" target="_blank" rel="noopener">GitHub에서 코드 보기 →</a>
+        <div class="cap">
+          <span class="cap-label">Core Competency 03</span>
+          <h3>AI Vision</h3>
+          <p>CNN 기본 구조를 이해하고 있으며, YOLO · SAM · GroundingDINO 등 다양한 비전 모델을 목적에 맞게 적용합니다.</p>
+        </div>
       </div>
-
-      <div class="detect-card">
-        <div class="p-header">
-          <h3>AI Vision을 활용한 LLM 기반 단일 시연 모방 로봇 </h3>
-          <span class="p-type">협동로봇 스킬 학습</span>
-        </div>
-        <p class="desc">
-          사람이 도구를 한 번 시연하면 그 궤적을 로봇이 재현 가능한 스킬로 변환하고,
-          이후에는 음성 명령("망치질 해줘")만으로 그 스킬을 불러 실행하는 Doosan M0609
-          협동로봇 시스템입니다.
-        </p>
-        <ul class="highlights">
-          <li>비전 파이프라인 전담: MediaPipe Hands로 파지 판정 → GroundingDINO+MobileSAM으로 도구 1회 검출 → CoTracker3 online으로 연속 keypoint 추적 → RealSense depth + RANSAC/Kabsch로 도구 6DoF pose 추정</li>
-          <li>CoTracker online API의 프레임 손실 문제를 직접 발견해 유효 pose FPS를 카메라 FPS 수준까지 개선, SAM 마스크 두께 비대칭으로 도구 머리 방향(앞/뒤)까지 판정</li>
-          <li>GPT(gpt-4o)로 세그먼트별 move_type·속도·blend를 결정하는 스킬 코드 생성 단계 설계 — 좌표는 실측값만 사용해 LLM이 좌표를 지어낼 여지를 구조적으로 차단</li>
-        </ul>
-        <div class="tech-tags">
-          <span>ROS2</span><span>Doosan M0609</span><span>CoTracker3</span><span>GroundingDINO · MobileSAM</span><span>GPT-4o</span><span>Python</span>
-        </div>
-        <a class="repo-link" href="https://github.com/dongukl/dittobot" target="_blank" rel="noopener">GitHub에서 코드 보기 →</a>
-      </div>
-
     </div>
   </section>
 
+  <!-- ================= STACK ================= -->
+  <section id="stack">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Stack</span>
+        <h2>Core Stack</h2>
+        <p class="sec-sub">ROS2 · Isaac Sim · Nav2 · Robot Arm · AMR · AI Vision</p>
+      </div>
+
+      <div class="stack-row">
+        <div class="label">Robot</div>
+        <div class="chips">
+          <span>Doosan M0609</span><span>OnRobot RG2</span><span>TurtleBot4 (Create3)</span>
+          <span>DART Studio</span><span>RealSense D435i</span>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="label">Perception</div>
+        <div class="chips">
+          <span>YOLOv11n</span><span>ByteTrack</span><span>GroundingDINO</span>
+          <span>MobileSAM</span><span>MediaPipe</span><span>CoTracker3</span>
+          <span>OpenCV</span><span>ArUco</span>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="label">Control &amp; Nav</div>
+        <div class="chips">
+          <span>ROS2 Humble</span><span>Nav2</span><span>SLAM</span><span>AMCL</span>
+          <span>movel / movec</span><span>Force Control</span>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="label">Simulation</div>
+        <div class="chips">
+          <span>NVIDIA Isaac Sim</span><span>MuJoCo</span><span>RMPFlow</span><span>ArticulationAction</span>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="label">LLM &amp; Voice</div>
+        <div class="chips">
+          <span>GPT-4o</span><span>OpenAI Whisper (STT)</span><span>Wake Word</span>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="label">Web &amp; Data</div>
+        <div class="chips">
+          <span>FastAPI</span><span>SSE</span><span>Flask</span><span>React</span>
+          <span>SQLite</span><span>HTML / CSS / JS</span>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="label">Language &amp; Tools</div>
+        <div class="chips"><span>Python</span><span>Linux</span><span>Git</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROJECTS ================= -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Projects</span>
+        <h2>My Projects</h2>
+        <p class="sec-sub">두산로보틱스 부트캠프에서 수행한 4개의 팀 프로젝트</p>
+      </div>
+
+      <div class="projects">
+
+        <!-- 1 -->
+        <article class="proj">
+          <a class="proj-cover" href="projects/autofuel/index.html" tabindex="-1" aria-hidden="true">
+            <img src="https://img.youtube.com/vi/gHq1_5h-L1c/maxresdefault.jpg"
+                 onerror="this.onerror=null;this.src='https://img.youtube.com/vi/gHq1_5h-L1c/hqdefault.jpg';"
+                 alt="" loading="lazy">
+          </a>
+          <div class="proj-body">
+            <span class="badge">Doosan Bootcamp</span>
+            <h3>디지털 트윈 기반 Isaac Sim 시뮬레이션</h3>
+            <p class="proj-sub">자동 주유 시스템</p>
+            <p class="proj-desc">
+              Isaac Sim 기반 Doosan M0609 로봇팔 2대가 협업하여 차량 주유구 인식부터 노즐 삽입까지 자동 수행하는 주유 시뮬레이션 시스템입니다.
+            </p>
+            <div class="proj-meta">
+              <span>인원 <b>4명 (팀 프로젝트)</b></span>
+              <span>기간 <b>2026.06.17 – 06.30 (14일)</b></span>
+            </div>
+            <div class="contrib">
+              <span class="contrib-label">Contribution</span>
+              <ul>
+                <li><b>Robot B 시퀀스 설계</b> — 연료 도어 감지 → 캡 제거 → 캡 복원까지 11단계 시퀀스 직접 설계 및 통합</li>
+                <li><b>웹서버 UI 개발</b> — FastAPI + SSE 기반 소비자용 화면 구현</li>
+                <li><b>시스템 연동 구조 설계</b> — Isaac Sim ↔ ROS2 ↔ 웹, 세 시스템을 잇는 통신 구조 설계</li>
+              </ul>
+            </div>
+            <div class="tags">
+              <span>Isaac Sim</span><span>Python</span><span>ROS2</span><span>OpenCV</span>
+              <span>FastAPI</span><span>ArUco</span><span>HTML</span><span>CSS</span><span>JS</span>
+            </div>
+            <div class="proj-foot">
+              <a class="view" href="projects/autofuel/index.html">View Details →</a>
+              <a class="ext" href="https://github.com/dongukl/auto_fuel" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2 -->
+        <article class="proj">
+          <a class="proj-cover" href="projects/farmguard/index.html" tabindex="-1" aria-hidden="true">
+            <img src="https://img.youtube.com/vi/wuT7QZJ-uqY/maxresdefault.jpg"
+                 onerror="this.onerror=null;this.src='https://img.youtube.com/vi/wuT7QZJ-uqY/hqdefault.jpg';"
+                 alt="" loading="lazy">
+          </a>
+          <div class="proj-body">
+            <span class="badge">Doosan Bootcamp</span>
+            <h3>AI Vision을 활용한 TurtleBot4 멀티로봇</h3>
+            <p class="proj-sub">유해동물 퇴치 시스템</p>
+            <p class="proj-desc">
+              TurtleBot4 두 대가 웹캠으로 침입 동물을 탐지해 호(Arc) 플랭킹으로 게이트까지 몰아내는 유해동물 퇴치 시스템입니다.
+            </p>
+            <div class="proj-meta">
+              <span>인원 <b>8명 (팀 프로젝트)</b></span>
+              <span>기간 <b>2026.07.01 – 07.14 (14일)</b></span>
+            </div>
+            <div class="contrib">
+              <span class="contrib-label">Contribution</span>
+              <ul>
+                <li><b>퇴치 알고리즘(Arc 플랭킹) 설계</b> — 목양견 원리를 응용한 호(Arc) 플랭킹 알고리즘 설계</li>
+                <li><b>SAFE_STOP 안전장치</b> — 로봇 간 충돌을 막는 안전 정지 로직 구현</li>
+                <li><b>멀티로봇 통신 구조 설계</b> — ROS2 기반 두 로봇 간 상태 공유 및 통신 구조 설계</li>
+              </ul>
+            </div>
+            <div class="tags">
+              <span>TurtleBot4</span><span>Python</span><span>ROS2</span><span>YOLOv11n</span>
+              <span>ByteTrack</span><span>Nav2</span><span>SLAM</span><span>React</span>
+            </div>
+            <div class="proj-foot">
+              <a class="view" href="projects/farmguard/index.html">View Details →</a>
+              <a class="ext" href="https://github.com/dongukl/farm_guard" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3 -->
+        <article class="proj">
+          <a class="proj-cover" href="projects/wokking/index.html" tabindex="-1" aria-hidden="true">
+            <img src="https://img.youtube.com/vi/Sq7LpkMZIZM/maxresdefault.jpg"
+                 onerror="this.onerror=null;this.src='https://img.youtube.com/vi/Sq7LpkMZIZM/hqdefault.jpg';"
+                 alt="" loading="lazy">
+          </a>
+          <div class="proj-body">
+            <span class="badge">Doosan Bootcamp</span>
+            <h3>ROS2 기반 Doosan M0609 로봇팔</h3>
+            <p class="proj-sub">자동 조리 시스템</p>
+            <p class="proj-desc">
+              두산 M0609 협동로봇이 QR 주문을 받아 부침개·볶음밥을 직접 조리하는 테이블 오더 시스템입니다.
+            </p>
+            <div class="proj-meta">
+              <span>인원 <b>4명 (팀 프로젝트)</b></span>
+              <span>기간 <b>2026.07.15 – 07.29 (14일)</b></span>
+            </div>
+            <div class="contrib">
+              <span class="contrib-label">Contribution</span>
+              <ul>
+                <li><b>로봇 티칭</b> — DART Studio 티칭펜던트로 웍질·부침개 뒤집기 동작의 관절 좌표를 정밀 맵핑</li>
+                <li><b>프론트엔드 개발</b> — 손님용 QR 주문 페이지 + 관리자 대시보드(실시간 조리 상태 모니터링) 구현</li>
+              </ul>
+            </div>
+            <div class="tags">
+              <span>M0609</span><span>Python</span><span>ROS2</span><span>SQLite</span>
+              <span>Flask</span><span>DART Studio</span><span>HTML</span><span>CSS</span><span>JS</span>
+            </div>
+            <div class="proj-foot">
+              <a class="view" href="projects/wokking/index.html">View Details →</a>
+              <a class="ext" href="https://github.com/dongukl/wokking_robot" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4 -->
+        <article class="proj">
+          <a class="proj-cover" href="projects/dittobot/index.html" tabindex="-1" aria-hidden="true">
+            <img src="https://img.youtube.com/vi/eUcfYuBBBFo/maxresdefault.jpg"
+                 onerror="this.onerror=null;this.src='https://img.youtube.com/vi/eUcfYuBBBFo/hqdefault.jpg';"
+                 alt="" loading="lazy">
+          </a>
+          <div class="proj-body">
+            <span class="badge">Doosan Bootcamp</span>
+            <h3>AI Vision을 활용한 VLM 기반 로봇 제어</h3>
+            <p class="proj-sub">단일 시연 모방 로봇</p>
+            <p class="proj-desc">
+              사람이 도구를 쥐고 움직이는 단일 시연을 카메라로 관찰해, Doosan M0609가 동일한 궤적과 자세로 그대로 재현하는 시스템입니다.
+            </p>
+            <div class="proj-meta">
+              <span>인원 <b>5명 (팀 프로젝트)</b></span>
+              <span>기간 <b>2026.07.30 – 08.12 (14일)</b></span>
+            </div>
+            <div class="contrib">
+              <span class="contrib-label">Contribution</span>
+              <ul>
+                <li><b>비전 인식 파이프라인 통합</b> — GroundingDINO+SAM 도구 탐지, MediaPipe 파지·포인팅 인식 결합</li>
+                <li><b>LLM 기반 스킬 코드 생성</b> — 시연 궤적을 세그먼트로 분류 후 GPT-4o가 실행 코드 자동 생성</li>
+              </ul>
+            </div>
+            <div class="tags">
+              <span>M0609</span><span>RealSense</span><span>ROS2</span><span>GroundingDINO</span>
+              <span>MobileSAM</span><span>MediaPipe</span><span>CoTracker3</span><span>GPT-4o</span>
+            </div>
+            <div class="proj-foot">
+              <a class="view" href="projects/dittobot/index.html">View Details →</a>
+              <a class="ext" href="https://github.com/dongukl/dittobot" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
   <section id="contact">
-    <div class="marker">// <span class="hi">contact</span></div>
-    <div class="terminal">
-      <div><span class="prompt">$</span> <span class="cmd">contact --engineer 임동욱</span><span class="cursor"></span></div>
-      <div class="row"><span class="k">email</span> &nbsp;<a href="mailto:donguklim.dev@gmail.com">donguklim.dev@gmail.com</a></div>
-      <div class="row"><span class="k">github</span> &nbsp;<a href="https://github.com/dongukl" target="_blank" rel="noopener">github.com/dongukl</a></div>
-      <div class="row"><span class="k">notion</span> &nbsp;<a href="https://donguklim.notion.site/3011d17d75e0815da092dbeeebc957b7" target="_blank" rel="noopener">donguklim.notion.site</a></div>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Contact</span>
+        <h2>Profile &amp; Contact</h2>
+        <p class="sec-sub">연락처와 프로젝트 기록을 확인하실 수 있습니다.</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <h3>Contact</h3>
+          <ul class="contact-list">
+            <li><span class="k">Phone</span><a href="tel:+821031662799">010-3166-2799</a></li>
+            <li><span class="k">Email</span><a href="mailto:donguklim.dev@gmail.com">donguklim.dev@gmail.com</a></li>
+          </ul>
+        </div>
+        <div class="contact-card">
+          <h3>Links</h3>
+          <ul class="contact-list">
+            <li><span class="k">GitHub</span><a href="https://github.com/dongukl" target="_blank" rel="noopener">github.com/dongukl</a></li>
+            <li><span class="k">Notion</span><a href="https://donguklim.notion.site/3011d17d75e0815da092dbeeebc957b7" target="_blank" rel="noopener">donguklim.notion.site</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
 
 </main>
 
 <footer>
-  dongukl.github.io &middot; ROS2 Robotics Developer &middot; 2026
+  © 2026 임동욱 — Robotics Engineer · Seoul, Korea
 </footer>
 
+<script src="assets/main.js"></script>
 </body>
 </html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>디지털 트윈 기반 Isaac Sim 시뮬레이션 | 임동욱</title>
+<meta name="description" content="Isaac Sim 기반 Doosan M0609 로봇팔 2대가 협업하여 차량 주유구 인식부터 노즐 삽입까지 자동 수행하는 주유 시뮬레이션 시스템.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/style.css">
+<script>
+  (function () {
+    try {
+      var s = localStorage.getItem("theme");
+      if (!s) s = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", s);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a class="logo" href="../../index.html">donguklim.</a>
+    <div class="navlinks">
+      <a href="../../index.html#about">About</a>
+      <a href="../../index.html#stack" data-optional>Stack</a>
+      <a href="../../index.html#projects">Projects</a>
+      <a href="../../index.html#contact">Contact</a>
+      <button class="theme-toggle" type="button" aria-label="테마 전환">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap detail">
+
+  <a class="backlink" href="../../index.html#projects">← 프로젝트 목록</a>
+
+  <span class="eyebrow">Project 01 · 두산로보틱스 부트캠프</span>
+  <h1>디지털 트윈 기반 Isaac Sim 시뮬레이션</h1>
+  <div class="subtitle">자동 주유 시스템 · Auto Fuel</div>
+  <p class="lede">
+    Isaac Sim 기반 Doosan M0609 로봇팔 2대가 협업하여
+    차량 주유구 인식부터 노즐 삽입, 마개 복원까지 자동으로 수행하는 주유 시뮬레이션 시스템입니다.
+    실제 유류를 다루는 위험 없이 전체 공정을 사전 검증하기 위해 디지털 트윈으로 구축했습니다.
+  </p>
+
+  <button class="video" type="button" data-video="gHq1_5h-L1c" aria-label="시연 영상 재생">
+    <img src="https://img.youtube.com/vi/gHq1_5h-L1c/maxresdefault.jpg"
+         onerror="this.onerror=null;this.src='https://img.youtube.com/vi/gHq1_5h-L1c/hqdefault.jpg';"
+         alt="자동 주유 시스템 시연 영상 썸네일">
+    <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+  </button>
+  <div class="caption">최종 시연 영상 — 클릭하면 바로 재생됩니다</div>
+
+  <div class="specs">
+    <div class="spec-row"><div class="k">Robot</div><div class="v">Doosan M0609 2대 + RealSense 카메라 (Isaac Sim 디지털 트윈)</div></div>
+    <div class="spec-row"><div class="k">Team</div><div class="v">4명 (팀 프로젝트)</div></div>
+    <div class="spec-row"><div class="k">Duration</div><div class="v">2026.06.17 – 2026.06.30 (14일)</div></div>
+    <div class="spec-row">
+      <div class="k">Stack</div>
+      <div class="v"><div class="chips">
+        <span>NVIDIA Isaac Sim</span><span>ROS2</span><span>OpenCV</span><span>ArUco</span>
+        <span>FastAPI</span><span>SSE</span><span>Python</span><span>HTML / CSS / JS</span>
+      </div></div>
+    </div>
+    <div class="spec-row">
+      <div class="k">Links</div>
+      <div class="v">
+        <a class="btn sm" href="https://github.com/dongukl/auto_fuel" target="_blank" rel="noopener">GitHub 저장소 →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY -->
+  <section>
+    <h2>Why — 이 문제를 고른 이유</h2>
+    <ul class="bullets">
+      <li><b>교통약자의 교통 편의 인프라 단절</b> — 교통약자는 늘고 있지만 인력난·인건비 상승으로 주유소 셀프화가 급증했습니다(서울 424개소 중 282개소, 67%).</li>
+      <li>몸을 내려 조작해야 하는 셀프 주유기 특성상, 노약자·장애인에게는 오히려 불편한 서비스가 됩니다.</li>
+      <li><b>왜 시뮬레이션인가</b> — 실제 휘발유·경유를 다루면 화재와 차량 손상 위험이 있고, 다양한 차종에 대한 물리 실험에도 한계가 있어 디지털 트윈으로 먼저 검증했습니다.</li>
+    </ul>
+  </section>
+
+  <!-- MY ROLE -->
+  <section>
+    <h2>My Role</h2>
+    <ul class="rolelist">
+      <li>
+        <b>Robot B 시퀀스 설계</b>
+        연료 도어 감지 → 캡 제거 → 캡 복원까지 이어지는 11단계 시퀀스를 직접 설계하고 전체 흐름에 통합했습니다.
+      </li>
+      <li>
+        <b>웹서버 UI 개발</b>
+        FastAPI + SSE 기반 소비자용 화면을 구현해, 주유량 입력부터 실시간 진행 상태 확인, 영수증 출력까지를 하나의 흐름으로 만들었습니다.
+      </li>
+      <li>
+        <b>시스템 연동 구조 설계</b>
+        Isaac Sim ↔ ROS2 ↔ 웹, 세 시스템을 잇는 통신 구조를 설계했습니다.
+        시뮬레이터 내부 이벤트가 ROS2 토픽을 거쳐 웹 화면까지 끊김 없이 전달되도록 경로를 정리했습니다.
+      </li>
+    </ul>
+  </section>
+
+  <!-- WHAT -->
+  <section>
+    <h2>What — 시스템 구성</h2>
+    <div class="blocks">
+      <div class="block">
+        <h3>하드웨어 (시뮬레이션)</h3>
+        <p>Doosan M0609 2대 + RealSense 카메라. Robot A는 주유 담당, Robot B는 덮개·마개 담당으로 역할을 분리했습니다.</p>
+      </div>
+      <div class="block">
+        <h3>인식</h3>
+        <p>ArUco Marker로 주유구·마개·덮개 위치를 인식합니다. 마커 ID를 디코딩해 3D 월드 좌표계의 위치와 회전 벡터를 역산합니다.</p>
+      </div>
+      <div class="block">
+        <h3>웹 연동</h3>
+        <p>FastAPI + SSE 기반으로 주유량 입력 → 실시간 확인 → 영수증 출력까지 처리합니다.</p>
+      </div>
+      <div class="block">
+        <h3>시퀀스</h3>
+        <p>마개 제거(Robot B) → 주유(Robot A) → 마개 체결·덮개 폐쇄(Robot B) 3단계로 나누고, 완료 신호로 순서를 동기화합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section>
+    <h2>How — 구현 방식</h2>
+    <div class="blocks">
+      <div class="block">
+        <h3><span class="n">01</span>로봇 간 동기화</h3>
+        <p>Robot B의 마개 제거 완료 신호를 받은 뒤에만 Robot A가 작동을 시작합니다. <code>/robot_a/done</code>, <code>/robot_b/done</code> 토픽으로 작업 순서를 명시적으로 묶어, 같은 워크스페이스에서 두 팔이 동시에 움직이지 않도록 했습니다.</p>
+      </div>
+      <div class="block">
+        <h3><span class="n">02</span>RMPFlow 한계 극복</h3>
+        <p>RMPFlow만으로는 특정 관절을 원하는 대로 제어할 수 없어, ArticulationAction으로 개별 관절을 직접 제어하는 방식으로 전환했습니다.</p>
+      </div>
+      <div class="block">
+        <h3><span class="n">03</span>정밀 삽입 제어</h3>
+        <p>삽입 방향의 법선 벡터를 기준으로 orientation을 고정해, 노즐이 항상 주유구를 정면으로 바라본 채 접근하도록 만들었습니다.</p>
+      </div>
+      <div class="block">
+        <h3><span class="n">04</span>3단 waypoint 접근</h3>
+        <ul>
+          <li><b>Far (0.28m)</b> — 워크스페이스로 빠르게 진입하며 방향 축을 대략 정렬</li>
+          <li><b>Mid (0.18m)</b> — 노즐 각도를 목표 평면과 일직선으로 정렬하는 보정 단계</li>
+          <li><b>Near (0.09m)</b> — 감속 후 잠시 대기해 진동을 억제하고 삽입 궤도 진입</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TROUBLE SHOOTING -->
+  <section>
+    <h2>Trouble Shooting</h2>
+
+    <div class="ts">
+      <div class="ts-head">최단 경로로만 움직여 차체와 충돌하는 문제</div>
+      <div class="ts-row">
+        <span class="tag problem">Problem</span>
+        <div>목표 지점으로 이동할 때 최단 경로로만 움직여 차체와 충돌했습니다.</div>
+      </div>
+      <div class="ts-row">
+        <span class="tag cause">Cause</span>
+        <div>직선에 가까운 최단 경로만 계산할 뿐, 경로 중간에 놓인 차체를 고려하지 않았습니다.</div>
+      </div>
+      <div class="ts-row">
+        <span class="tag fix">Solution</span>
+        <div>경로 중간에 웨이포인트를 지정해 차체를 우회하도록 제어했습니다. 주유구 덮개 등 장애물을 피해 노즐이 직선 주입이 가능한 위치까지 이동한 뒤 삽입하도록 중간 목표를 나눴습니다.</div>
+      </div>
+    </div>
+
+    <div class="ts">
+      <div class="ts-head">두 로봇이 같은 워크스페이스에서 간섭하는 문제</div>
+      <div class="ts-row">
+        <span class="tag problem">Problem</span>
+        <div>동일 워크스페이스 안에서 대기 중인 로봇과 이동 중인 로봇이 물리적으로 충돌하고, 충돌 이후 경로가 무너졌습니다.</div>
+      </div>
+      <div class="ts-row">
+        <span class="tag cause">Cause</span>
+        <div>두 로봇의 워크스페이스가 겹쳤고, 대기 로봇의 조인트값이 통행에 방해가 되는 자세였습니다.</div>
+      </div>
+      <div class="ts-row">
+        <span class="tag fix">Solution</span>
+        <div>로봇 베이스 간 거리를 재조정해 간섭을 물리적으로 줄이고, 소프트웨어적으로 안전한 대기 자세를 정의해 충돌을 원천 차단했습니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section>
+    <h2>Result</h2>
+    <div class="blocks">
+      <div class="block">
+        <h3>웹 연동 검증</h3>
+        <p>ROS2 토픽과 SSE 웹 스트리밍이 끊김 없이 동작해, 실시간 로그와 진행 상태를 웹에서 확인할 수 있습니다.</p>
+      </div>
+      <div class="block">
+        <h3>자동화</h3>
+        <ul>
+          <li>웹에서 원하는 리터 또는 가격을 선택해 결제</li>
+          <li>로봇이 마개를 열고 주유한 뒤 덮개까지 닫아줌</li>
+          <li>→ 교통약자는 차에서 내리지 않고 주유의 모든 과정이 가능</li>
+        </ul>
+      </div>
+      <div class="block">
+        <h3>기대 효과</h3>
+        <ul>
+          <li>정유사는 본업 안에서 인건비 절감과 ESG(사회) 성과를 동시에 확보</li>
+          <li>교통약자는 차량에서 내리지 않고 안전하게 주유하며 이동권을 보장</li>
+          <li>지자체는 별도 인프라 없이 보조금 연계로 이동편의 정책 성과</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEARNINGS -->
+  <section>
+    <h2>Learnings</h2>
+    <div class="learn">
+      <div class="block">
+        <h3>라이브러리를 넘어선 제어</h3>
+        <p>정해진 프레임워크에 기대는 대신, 원리를 직접 진단하고 더 낮은 레벨에서 유연하게 제어하는 방식을 택했습니다.</p>
+      </div>
+      <div class="block">
+        <h3>계획과 조율의 중요성</h3>
+        <p>두 로봇이 순서대로 동작하는 구조에서, 미리 계획하고 팀원과 실시간으로 조율하는 습관의 중요성을 배웠습니다.</p>
+      </div>
+      <div class="block">
+        <h3>시스템 통합의 관점</h3>
+        <p>로봇 시뮬레이션은 단순히 로봇을 움직이는 것이 아니라 인식·경로 제어·통신 구조가 함께 맞물려야 한다는 점을 경험했습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="detail-foot">
+    <a class="btn" href="../../index.html#projects">← 프로젝트 목록</a>
+    <a class="btn primary" href="../farmguard/index.html">다음 프로젝트 →</a>
+  </div>
+
+</main>
+
+<footer>
+  © 2026 임동욱 — Robotics Engineer · Seoul, Korea
+</footer>
+
+<script src="../../assets/main.js"></script>
+</body>
+</html>

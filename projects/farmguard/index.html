@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Vision을 활용한 TurtleBot4 멀티로봇 | 임동욱</title>
+<meta name="description" content="TurtleBot4 두 대가 웹캠으로 침입 동물을 탐지해 호(Arc) 플랭킹으로 게이트까지 몰아내는 유해동물 퇴치 시스템.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/style.css">
+<script>
+  (function () {
+    try {
+      var s = localStorage.getItem("theme");
+      if (!s) s = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", s);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a class="logo" href="../../index.html">donguklim.</a>
+    <div class="navlinks">
+      <a href="../../index.html#about">About</a>
+      <a href="../../index.html#stack" data-optional>Stack</a>
+      <a href="../../index.html#projects">Projects</a>
+      <a href="../../index.html#contact">Contact</a>
+      <button class="theme-toggle" type="button" aria-label="테마 전환">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap detail">
+
+  <a class="backlink" href="../../index.html#projects">← 프로젝트 목록</a>
+
+  <span class="eyebrow">Project 02 · 두산로보틱스 부트캠프</span>
+  <h1>AI Vision을 활용한 TurtleBot4 멀티로봇</h1>
+  <div class="subtitle">유해동물 퇴치 시스템 · Farm Guard</div>
+  <p class="lede">
+    TurtleBot4 두 대가 관제탑 웹캠으로 침입 동물을 탐지해,
+    목양견의 몰이 원리를 응용한 호(Arc) 플랭킹으로 게이트까지 몰아내는 유해동물 퇴치 시스템입니다.
+  </p>
+
+  <button class="video" type="button" data-video="wuT7QZJ-uqY" aria-label="시연 영상 재생">
+    <img src="https://img.youtube.com/vi/wuT7QZJ-uqY/maxresdefault.jpg"
+         onerror="this.onerror=null;this.src='https://img.youtube.com/vi/wuT7QZJ-uqY/hqdefault.jpg';"
+         alt="유해동물 퇴치 시스템 시연 영상 썸네일">
+    <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+  </button>
+  <div class="caption">최종 시연 영상 — 클릭하면 바로 재생됩니다</div>
+
+  <div class="specs">
+    <div class="spec-row"><div class="k">Robot</div><div class="v">TurtleBot4 (Create3) 2대 + 관제탑 웹캠 1대</div></div>
+    <div class="spec-row"><div class="k">Team</div><div class="v">8명 (팀 프로젝트)</div></div>
+    <div class="spec-row"><div class="k">Duration</div><div class="v">2026.07.01 – 2026.07.14 (14일)</div></div>
+    <div class="spec-row">
+      <div class="k">Stack</div>
+      <div class="v"><div class="chips">
+        <span>ROS2</span><span>YOLOv11n</span><span>ByteTrack</span><span>Nav2</span>
+        <span>SLAM / AMCL</span><span>React</span><span>Python</span>
+      </div></div>
+    </div>
+    <div class="spec-row">
+      <div class="k">Links</div>
+      <div class="v">
+        <a class="btn sm" href="https://github.com/dongukl/farm_guard" target="_blank" rel="noopener">GitHub 저장소 →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY -->
+  <section>
+    <h2>Why — 이 문제를 고른 이유</h2>
+    <ul class="bullets">
+      <li><b>농작물 피해</b> — 5년간 연평균 95.6억 원 규모의 피해가 발생했고, 그중 약 80%가 유해동물로 인한 피해입니다.</li>
+      <li><b>상시 대응의 한계</b> — 넓은 농경지를 사람이 24시간 지키기는 현실적으로 어렵습니다.</li>
+      <li><b>목표</b> — 동물을 해치지 않으면서, 로봇 두 대가 자동으로 몰아내 <b>비살상 방식으로 퇴치</b>하는 시스템을 만드는 것.</li>
+    </ul>
+  </section>
+
+  <!-- MY ROLE -->
+  <section>
+    <h2>My Role</h2>
+    <ul class="rolelist">
+      <li>
+        <b>퇴치 알고리즘(Arc 플랭킹) 설계</b>
+        정해진 답이 없는 문제여서, 목양견이 가축을 모는 원리를 참고해 두 로봇이 게이트 반대편에서 좌우로 벌어져
+        압박하는 호(Arc) 플랭킹 알고리즘을 처음부터 직접 설계했습니다.
+      </li>
+      <li>
+        <b>SAFE_STOP 안전장치</b>
+        예측 기반 충돌 회피(PVO)만으로 막지 못한 로봇 간 충돌을, 실시간 거리 기반 정지 로직으로 차단했습니다.
+      </li>
+      <li>
+        <b>멀티로봇 통신 구조 설계</b>
+        ROS2 기반으로 두 로봇이 서로의 위치·상태를 공유하고 우선순위를 협상하는 통신 구조를 설계했습니다.
+      </li>
+    </ul>
+  </section>
+
+  <!-- WHAT -->
+  <section>
+    <h2>What — 시스템 구성</h2>
+    <div class="blocks">
+      <div class="block">
+        <h3>하드웨어</h3>
+        <p>TurtleBot4(Create3) 2대 + 관제탑 웹캠 1대. 로봇에 카메라를 달지 않고 상부 고정 시점에서 전체 필드를 관측합니다.</p>
+      </div>
+      <div class="block">
+        <h3>탐지 · 추적</h3>
+        <p>YOLOv11n으로 동물을 탐지하고 ByteTrack으로 ID를 유지하며, 호모그래피로 영상 좌표를 map 좌표로 변환합니다.</p>
+      </div>
+      <div class="block">
+        <h3>위치 추정</h3>
+        <p>SLAM으로 사전 매핑한 지도 위에서 Nav2 AMCL 기반 자율주행을 수행합니다.</p>
+      </div>
+      <div class="block">
+        <h3>퇴치 · 관제</h3>
+        <p>호(Arc) 플랭킹으로 게이트 방향으로 몰아내고, React 대시보드에서 실시간으로 관제합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section>
+    <h2>How — 구현 방식</h2>
+    <div class="blocks">
+      <div class="block">
+        <h3><span class="n">01</span>양몰이(Arc 플랭킹) 알고리즘</h3>
+        <ul>
+          <li>목양견 원리를 응용해, 두 로봇이 게이트 반대편에서 좌우로 벌어져 서서 압박</li>
+          <li>flank_angle 75°로 목표 지점을 벌려 동물이 게이트 방향으로만 빠져나가도록 유도</li>
+          <li>동물 움직임과 로봇(사냥꾼) 움직임을 분리 모델링해 시뮬레이션으로 사전 검증</li>
+        </ul>
+      </div>
+      <div class="block">
+        <h3><span class="n">02</span>탐지 모델 선정</h3>
+        <p>YOLO11n과 YOLO26을 비교한 뒤, 실시간 처리 속도와 상대적인 안정성을 기준으로 YOLO11n을 채택했습니다.</p>
+      </div>
+      <div class="block">
+        <h3><span class="n">03</span>충돌 예방 (PVO)</h3>
+        <p>1초 앞 예측 위치를 기준으로 두 로봇의 우선순위를 판단해, 목표 지점 자체가 겹치지 않도록 미리 벌려놓습니다.</p>
+      </div>
+      <div class="block">
+        <h3><span class="n">04</span>리커버리 로직 재설계</h3>
+        <p>Nav2 기본 리커버리의 한계를 확인하고, <b>후진 → 경로 재생성 → 90도 회전</b> 순으로 순서를 바꾸고 재시도 횟수를 늘려 재설계했습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TROUBLE SHOOTING -->
+  <section>
+    <h2>Trouble Shooting</h2>
+
+    <div class="ts">
+      <div class="ts-head">두 로봇이 실제로 부딪히는 문제</div>
+      <div class="ts-row">
+        <span class="tag problem">Problem</span>
+        <div>PVO로 목표 지점을 미리 벌려놓았음에도, 이동 경로가 겹쳐 두 로봇이 실제로 충돌하는 현상이 발생했습니다.</div>
+      </div>
+      <div class="ts-row">
+        <span class="tag cause">Cause</span>
+        <div>PVO는 계산 시점의 <b>예측</b>이라, 주행 중 누적되는 실제 위치 오차까지는 반영하지 못했습니다. 또한 가까운 동적 장애물에 대해 Nav2가 회피 경로를 계산할 시간 자체가 부족했습니다.</div>
+      </div>
+      <div class="ts-row">
+        <span class="tag fix">Solution</span>
+        <div>
+          로봇 간 좌표를 실시간으로 공유하고, 안전거리 이내로 진입하면 즉시 정지하는 SAFE_STOP 로직을 추가했습니다.
+          <ul>
+            <li>목표에 가까운 로봇을 High, 먼 로봇을 Low로 우선순위 지정</li>
+            <li>High 우선 이동 → Low는 완전 정지 후 재개하는 순차 통과 구조</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts">
+      <div class="ts-head">맵에 없는 장애물에 끼이는 문제</div>
+      <div class="ts-row">
+        <span class="tag problem">Problem</span>
+        <div>사전 매핑되지 않은 장애물에 끼었을 때 제자리 회전만 반복하다 더 깊이 끼이는 현상이 발생했습니다.</div>
+      </div>
+      <div class="ts-row">
+        <span class="tag cause">Cause</span>
+        <div>회전만으로는 교착 상태에서 빠져나올 공간 자체를 확보할 수 없었습니다.</div>
+      </div>
+      <div class="ts-row">
+        <span class="tag fix">Solution</span>
+        <div>후진으로 공간을 먼저 확보한 뒤 회전하도록 순서를 바꾸고, 끼임을 빠르게 감지해 리커버리를 조기에 시작하도록 조정했습니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section>
+    <h2>Result</h2>
+    <ul class="bullets">
+      <li><b>자동 동작 검증</b> — 탐지 → 몰이 → 게이트 이탈 확인 → 자동 도킹까지 사람 개입 없이 한 흐름으로 완주</li>
+      <li><b>안전성</b> — 리커버리 로직으로 맵에 없는 장애물을 회피하고, PVO + SAFE_STOP 이중 안전장치로 두 로봇 간 충돌 없이 동작</li>
+      <li><b>검증 결과</b> — 일반·코너 조건 모두 30–40초 이내 누적 성공률 100%, 다양한 스폰 케이스에서도 안정적인 퇴치 성능 확인</li>
+    </ul>
+
+    <div class="tablewrap">
+      <table class="data">
+        <thead>
+          <tr>
+            <th rowspan="2">시간 구간</th>
+            <th colspan="4">일반 조건 (중심 기준 1m 내 랜덤 스폰)</th>
+            <th colspan="4">코너 조건 (출구 외 코너 0.2m 반경 스폰)</th>
+          </tr>
+          <tr>
+            <th>0–10s</th><th>10–20s</th><th>20–30s</th><th>30–40s</th>
+            <th>0–10s</th><th>10–20s</th><th>20–30s</th><th>30–40s</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>구간 성공</th>
+            <td>318</td><td>517</td><td>145</td><td>20</td>
+            <td>122</td><td>212</td><td>640</td><td>26</td>
+          </tr>
+          <tr>
+            <th>누적 성공률</th>
+            <td>31.8%</td><td>83.5%</td><td class="hit">98.0%</td><td class="hit">100.0%</td>
+            <td>12.2%</td><td>33.4%</td><td class="hit">97.4%</td><td class="hit">100.0%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- LEARNINGS -->
+  <section>
+    <h2>Learnings</h2>
+    <div class="learn">
+      <div class="block">
+        <h3>원인을 파고드는 태도</h3>
+        <p>막히면 우회하거나 포기하지 않고, 직접 원인을 찾아 해결하는 방식을 체득했습니다. PVO만으로 충돌이 막히지 않은 이유를 끝까지 추적한 것이 SAFE_STOP 설계로 이어졌습니다.</p>
+      </div>
+      <div class="block">
+        <h3>정해진 답이 없는 문제</h3>
+        <p>참고할 표준 알고리즘이 없는 상태에서 몰이 전략을 처음부터 스스로 설계하며, 여러 방식을 시도해 답을 찾아가는 경험을 했습니다.</p>
+      </div>
+      <div class="block">
+        <h3>시뮬레이션과 실제의 차이</h3>
+        <p>시뮬레이션에서 통과한 로직이 실기체에서는 통신 지연과 위치 오차 때문에 그대로 동작하지 않는다는 것을 확인하고, 실환경 기준으로 안전 로직을 다시 설계했습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="detail-foot">
+    <a class="btn" href="../../index.html#projects">← 프로젝트 목록</a>
+    <a class="btn primary" href="../wokking/index.html">다음 프로젝트 →</a>
+  </div>
+
+</main>
+
+<footer>
+  © 2026 임동욱 — Robotics Engineer · Seoul, Korea
+</footer>
+
+<script src="../../assets/main.js"></script>
+</body>
+</html>

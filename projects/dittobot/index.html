@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Vision을 활용한 VLM 기반 로봇 제어 | 임동욱</title>
+<meta name="description" content="사람이 도구를 쥐고 움직이는 단일 시연을 카메라로 관찰해, Doosan M0609가 동일한 궤적과 자세로 재현하는 시스템.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/style.css">
+<script>
+  (function () {
+    try {
+      var s = localStorage.getItem("theme");
+      if (!s) s = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", s);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a class="logo" href="../../index.html">donguklim.</a>
+    <div class="navlinks">
+      <a href="../../index.html#about">About</a>
+      <a href="../../index.html#stack" data-optional>Stack</a>
+      <a href="../../index.html#projects">Projects</a>
+      <a href="../../index.html#contact">Contact</a>
+      <button class="theme-toggle" type="button" aria-label="테마 전환">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap detail">
+
+  <a class="backlink" href="../../index.html#projects">← 프로젝트 목록</a>
+
+  <span class="eyebrow">Project 04 · 두산로보틱스 부트캠프</span>
+  <h1>AI Vision을 활용한 VLM 기반 로봇 제어</h1>
+  <div class="subtitle">단일 시연 모방 로봇 · Dittobot</div>
+  <p class="lede">
+    사람이 도구를 쥐고 움직이는 단일 시연을 카메라로 관찰해,
+    Doosan M0609가 동일한 궤적과 자세로 그대로 재현하는 시스템입니다.
+    한 번 녹화된 시연은 스킬로 저장되어, 이후에는 음성 명령만으로 반복 실행됩니다.
+  </p>
+
+  <button class="video" type="button" data-video="eUcfYuBBBFo" aria-label="시연 영상 재생">
+    <img src="https://img.youtube.com/vi/eUcfYuBBBFo/maxresdefault.jpg"
+         onerror="this.onerror=null;this.src='https://img.youtube.com/vi/eUcfYuBBBFo/hqdefault.jpg';"
+         alt="단일 시연 모방 로봇 시연 영상 썸네일">
+    <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+  </button>
+  <div class="caption">최종 시연 영상 — 클릭하면 바로 재생됩니다</div>
+
+  <div class="specs">
+    <div class="spec-row"><div class="k">Robot</div><div class="v">Doosan M0609 + OnRobot RG2 + RealSense D435i</div></div>
+    <div class="spec-row"><div class="k">Team</div><div class="v">5명 (팀 프로젝트)</div></div>
+    <div class="spec-row"><div class="k">Duration</div><div class="v">2026.07.30 – 2026.08.12 (14일)</div></div>
+    <div class="spec-row">
+      <div class="k">Stack</div>
+      <div class="v"><div class="chips">
+        <span>ROS2 Humble</span><span>GroundingDINO</span><span>MobileSAM</span><span>MediaPipe</span>
+        <span>CoTracker3</span><span>OpenAI STT</span><span>GPT-4o</span><span>FastAPI</span><span>Python</span>
+      </div></div>
+    </div>
+    <div class="spec-row">
+      <div class="k">Links</div>
+      <div class="v">
+        <a class="btn sm" href="https://github.com/dongukl/dittobot" target="_blank" rel="noopener">GitHub 저장소 →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY -->
+  <section>
+    <h2>Why — 이 문제를 고른 이유</h2>
+    <ul class="bullets">
+      <li><b>기존 로봇 티칭의 진입장벽</b> — 산업용 로봇은 전문 엔지니어가 코드 기반으로 직접 티칭해야 동작을 만들 수 있어, 공정이 바뀔 때마다 재프로그래밍에 시간과 전문 인력이 필요합니다.</li>
+      <li><b>숙련 인력 확보의 어려움</b> — 제조업 인력난이 심화되며, 로봇 티칭·재프로그래밍을 담당할 숙련 인력을 상시 확보하기가 점점 어려워지고 있습니다.</li>
+      <li><b>목표</b> — 복잡한 코드 대신 <b>행동 모방과 음성 명령</b>으로 로봇을 가르쳐, 비전문가도 현장에서 바로 쓸 수 있는 티칭 방식을 만드는 것.</li>
+    </ul>
+  </section>
+
+  <!-- MY ROLE -->
+  <section>
+    <h2>My Role</h2>
+    <ul class="rolelist">
+      <li>
+        <b>비전 인식 파이프라인 통합</b>
+        GroundingDINO + MobileSAM으로 도구를 탐지·분할하고, MediaPipe의 파지·포인팅 인식을 결합해
+        “무엇을 잡았는지”와 “어디를 가리키는지”를 하나의 인식 흐름으로 통합했습니다.
+      </li>
+      <li>
+        <b>LLM 기반 스킬 코드 생성</b>
+        시연 궤적을 세그먼트로 분류한 뒤, GPT-4o가 각 구간의 movel/movec 선택과 속도·가감속·블렌딩을 판단해
+        실행 가능한 로봇 코드를 자동 생성하도록 설계했습니다.
+      </li>
+    </ul>
+  </section>
+
+  <!-- WHAT -->
+  <section>
+    <h2>What — 시스템 구성</h2>
+    <div class="blocks">
+      <div class="block">
+        <h3>하드웨어</h3>
+        <p>Doosan M0609 협동로봇 + OnRobot RG2 그리퍼 + RealSense D435i RGB-D 카메라</p>
+      </div>
+      <div class="block">
+        <h3>음성 · 인식</h3>
+        <p>웨이크워드 + STT로 명령을 인식하고, GroundingDINO + SAM + MediaPipe로 도구와 손을 함께 인식합니다.</p>
+      </div>
+      <div class="block">
+        <h3>스킬 생성</h3>
+        <p>CoTracker로 추출한 시연 궤적을 세그먼트로 분류하고, GPT-4o가 movel/movec · 속도 · 블렌딩을 결정합니다.</p>
+      </div>
+      <div class="block">
+        <h3>실행 · 관제</h3>
+        <p>검지 포인팅으로 목표 위치를 지정한 뒤 궤적을 재현하고, FastAPI 웹 UI에서 실시간으로 관제합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section>
+    <h2>How — 구현 방식</h2>
+    <div class="blocks">
+      <div class="block">
+        <h3><span class="n">01</span>궤적 생성 및 스킬화</h3>
+        <ul>
+          <li>MediaPipe로 손을 인식하고, 파지 시점부터 CoTracker3로 도구 keypoint를 연속 추적</li>
+          <li>Depth deprojection으로 3D 좌표를 복원하고, Kabsch/SVD 정합 + RANSAC 이상치 제거로 도구 자세를 안정화</li>
+          <li>Quaternion 부호 보정과 sliding window 평균으로 회전 불연속·자세 노이즈 제거</li>
+          <li>스무딩·검증을 거친 궤적을 GPT-4o가 movel/movec·속도·블렌딩으로 판단해 스킬로 변환</li>
+        </ul>
+      </div>
+      <div class="block">
+        <h3><span class="n">02</span>5단계 검증 파이프라인</h3>
+        <ul>
+          <li><b>record</b> — 도구를 잡으면 녹화 시작, 손을 펴면 종료</li>
+          <li><b>smooth</b> — 손떨림·추적 노이즈 제거, 꺾이는 지점은 보존</li>
+          <li><b>verify</b> — 로봇 작업 반경 이탈·급격한 튐 구간 사전 검사</li>
+          <li><b>replay (dry-run)</b> — 로봇을 움직이지 않고 먼저 시험, 통과해야 실행 버튼이 열림</li>
+          <li><b>skill</b> — 동작 단위로 변환 후 정확도 점수를 매겨 기준 미달이면 저장 차단</li>
+        </ul>
+      </div>
+      <div class="block">
+        <h3><span class="n">03</span>음성 명령 분류</h3>
+        <p>규칙 기반으로 우선 처리하고, 애매한 발화만 GPT-4o가 판단하도록 분기해 응답 지연과 오판을 함께 줄였습니다.</p>
+      </div>
+      <div class="block">
+        <h3><span class="n">04</span>안전 작업영역 검사</h3>
+        <p>실행 전 모든 궤적점이 workspace 내부인지, Z축 안전 높이와 waypoint 간 속도 제한을 넘지 않는지 검사하고, 벗어나면 실행을 차단합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TROUBLE SHOOTING -->
+  <section>
+    <h2>Trouble Shooting</h2>
+    <div class="ts">
+      <div class="ts-head">미학습 도구를 인식하지 못하는 문제</div>
+      <div class="ts-row">
+        <span class="tag problem">Problem</span>
+        <div>기존 YOLO World로는 학습되지 않은 도구를 인식하지 못해, 새로운 도구가 들어올 때마다 파이프라인이 멈췄습니다.</div>
+      </div>
+      <div class="ts-row">
+        <span class="tag cause">Cause</span>
+        <div>YOLO World는 open-vocabulary를 표방하지만 실질적으로는 학습된 프롬프트 범위 안에서만 안정적으로 동작했습니다.</div>
+      </div>
+      <div class="ts-row">
+        <span class="tag fix">Solution</span>
+        <div>GroundingDINO + MobileSAM 조합으로 전환해, 재학습 없이 임의의 도구를 open-vocabulary로 탐지·분할하도록 개선했습니다. SAM 마스크를 함께 사용해 도구 영역을 정확히 잘라내고, 그 영역에서 CoTracker keypoint를 초기화하도록 연결했습니다.</div>
+      </div>
+    </div>
+
+    <div class="ts">
+      <div class="ts-head">보정 없는 궤적의 떨림과 오동작</div>
+      <div class="ts-row">
+        <span class="tag problem">Problem</span>
+        <div>후처리 없이 시연 궤적을 그대로 재현하면 손떨림이 그대로 반영되어 모션이 버벅이고 오동작이 발생했습니다.</div>
+      </div>
+      <div class="ts-row">
+        <span class="tag fix">Solution</span>
+        <div>
+          <ul>
+            <li>Douglas–Peucker 기반 경로 단순화로 미세 노이즈를 줄이면서 전체 궤적 형상은 유지</li>
+            <li>Prominence 기반 반전점 검출로 망치질 같은 왕복 운동의 타격·방향전환 지점은 보존</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section>
+    <h2>Result</h2>
+    <div class="blocks">
+      <div class="block">
+        <h3>1회 시연 → 무한 재실행</h3>
+        <p>한 번 녹화된 시연이 Skill Registry에 등록되면, 이후에는 재시연·재프로그래밍 없이 음성 명령만으로 동일 task를 다른 목표 위치에서도 반복 실행할 수 있습니다.</p>
+      </div>
+      <div class="block">
+        <h3>비전 개선</h3>
+        <p>GroundingDINO+SAM 전환 후 미학습 도구에서도 재학습 없이 탐지에 성공해, 기존 YOLO World 대비 인식 가능한 도구 범위를 넓혔습니다.</p>
+      </div>
+      <div class="block">
+        <h3>LLM 안전성</h3>
+        <p>GPT-4o 출력에 스키마 검증과 기본값 폴백을 적용해, 모든 세그먼트가 실행 가능한 movel/movec 코드로 100% 변환되도록 만들었습니다.</p>
+      </div>
+      <div class="block">
+        <h3>궤적 재현 정확도</h3>
+        <p>망치질 스킬 기준 fidelity RMSE 3.07mm / max 7.73mm, 반전점 5→5 일치로 검증을 통과했습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEARNINGS -->
+  <section>
+    <h2>Learnings</h2>
+    <div class="learn">
+      <div class="block">
+        <h3>파이프라인 통합 능력</h3>
+        <p>음성·비전·LLM처럼 성격이 다른 모듈을 각각 독립적으로 검증한 뒤 하나의 흐름으로 통합하는 방식을 익혔습니다.</p>
+      </div>
+      <div class="block">
+        <h3>검증 가능한 구조의 중요성</h3>
+        <p>실시간 추종보다 record → smooth → verify → replay처럼 단계를 끊어야 문제 지점을 좁히고 안정성을 확보할 수 있다는 것을 알게 되었습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="detail-foot">
+    <a class="btn" href="../../index.html#projects">← 프로젝트 목록</a>
+    <a class="btn primary" href="../autofuel/index.html">처음 프로젝트로 →</a>
+  </div>
+
+</main>
+
+<footer>
+  © 2026 임동욱 — Robotics Engineer · Seoul, Korea
+</footer>
+
+<script src="../../assets/main.js"></script>
+</body>
+</html>

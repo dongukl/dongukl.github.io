@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROS2 기반 Doosan M0609 로봇팔 | 임동욱</title>
+<meta name="description" content="두산 M0609 협동로봇이 QR 주문을 받아 부침개·볶음밥을 직접 조리하는 테이블 오더 시스템.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/style.css">
+<script>
+  (function () {
+    try {
+      var s = localStorage.getItem("theme");
+      if (!s) s = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", s);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a class="logo" href="../../index.html">donguklim.</a>
+    <div class="navlinks">
+      <a href="../../index.html#about">About</a>
+      <a href="../../index.html#stack" data-optional>Stack</a>
+      <a href="../../index.html#projects">Projects</a>
+      <a href="../../index.html#contact">Contact</a>
+      <button class="theme-toggle" type="button" aria-label="테마 전환">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap detail">
+
+  <a class="backlink" href="../../index.html#projects">← 프로젝트 목록</a>
+
+  <span class="eyebrow">Project 03 · 두산로보틱스 부트캠프</span>
+  <h1>ROS2 기반 Doosan M0609 로봇팔</h1>
+  <div class="subtitle">자동 조리 시스템 · Wokking Robot</div>
+  <p class="lede">
+    두산 M0609 협동로봇이 QR 주문을 받아 부침개·볶음밥을 직접 조리하는 테이블 오더 시스템입니다.
+    재료 투입부터 웍 파지, 웍질과 뒤집기, 플레이팅까지 전 과정을 자동화했습니다.
+  </p>
+
+  <button class="video" type="button" data-video="Sq7LpkMZIZM" aria-label="시연 영상 재생">
+    <img src="https://img.youtube.com/vi/Sq7LpkMZIZM/maxresdefault.jpg"
+         onerror="this.onerror=null;this.src='https://img.youtube.com/vi/Sq7LpkMZIZM/hqdefault.jpg';"
+         alt="자동 조리 시스템 시연 영상 썸네일">
+    <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+  </button>
+  <div class="caption">최종 시연 영상 — 클릭하면 바로 재생됩니다</div>
+
+  <div class="specs">
+    <div class="spec-row"><div class="k">Robot</div><div class="v">Doosan M0609 + OnRobot RG2 (그리퍼 홀더 자체 제작)</div></div>
+    <div class="spec-row"><div class="k">Team</div><div class="v">4명 (팀 프로젝트)</div></div>
+    <div class="spec-row"><div class="k">Duration</div><div class="v">2026.07.15 – 2026.07.29 (14일)</div></div>
+    <div class="spec-row">
+      <div class="k">Stack</div>
+      <div class="v"><div class="chips">
+        <span>ROS2 Humble</span><span>DART Studio</span><span>Python 3.10</span>
+        <span>Flask</span><span>SQLite</span><span>HTML / CSS / JS</span>
+      </div></div>
+    </div>
+    <div class="spec-row">
+      <div class="k">Links</div>
+      <div class="v">
+        <a class="btn sm" href="https://github.com/dongukl/wokking_robot" target="_blank" rel="noopener">GitHub 저장소 →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY -->
+  <section>
+    <h2>Why — 이 문제를 고른 이유</h2>
+    <ul class="bullets">
+      <li><b>안전 · 피로</b> — 고온 화구 앞에서의 반복 작업은 작업자에게 큰 부담이며, 화상은 주방 종사자가 가장 높게 인식하는 잠재 위험 요인입니다.</li>
+      <li><b>인력 부족</b> — 음식점의 인력 부족이 점점 심해지고 있습니다.</li>
+      <li><b>품질 편차</b> — 조리자마다 맛과 공정이 달라져 균일한 품질을 보장하기 어렵습니다.</li>
+    </ul>
+  </section>
+
+  <!-- MY ROLE -->
+  <section>
+    <h2>My Role</h2>
+    <ul class="rolelist">
+      <li>
+        <b>로봇 티칭</b>
+        DART Studio 티칭펜던트로 웍질·부침개 뒤집기 동작의 관절 좌표를 정밀 맵핑했습니다.
+        단순히 자세를 저장하는 것을 넘어, 화구 간섭을 피하면서 재료가 떠오를 수 있는 관절 조합을 찾는 과정이었습니다.
+      </li>
+      <li>
+        <b>프론트엔드 개발</b>
+        손님용 QR 주문 페이지와 관리자 대시보드(실시간 조리 상태 모니터링)를 구현하고,
+        로봇이 발행하는 조리 단계를 화면에서 바로 확인할 수 있도록 연동했습니다.
+      </li>
+    </ul>
+  </section>
+
+  <!-- WHAT -->
+  <section>
+    <h2>What — 시스템 구성</h2>
+    <div class="blocks">
+      <div class="block">
+        <h3>하드웨어</h3>
+        <p>M0609 + RG2 그리퍼. 프라이팬을 안정적으로 잡기 위한 그리퍼 홀더를 3D 프린팅으로 직접 제작해, 그립 경사 홈으로 최대 5mm 오차에도 파지되도록 개선했습니다.</p>
+      </div>
+      <div class="block">
+        <h3>조리 공정</h3>
+        <p>재료 투입 → 웍 파지 → 웍질 및 뒤집기 → 배식까지 전 과정 자동화. 화구 밸브 조작과 불 끄기까지 로봇이 수행합니다.</p>
+      </div>
+      <div class="block">
+        <h3>주문 · 모니터링 UI</h3>
+        <p>QR 주문 → 관리자 조리 시작 → 웹에서 실시간 진행 상태 확인. 관리자 화면에서 긴급정지와 작업 재개가 가능합니다.</p>
+      </div>
+      <div class="block">
+        <h3>예외 처리</h3>
+        <p>사람과 부딪히면 안전 정지 후 재개 가능한 시점에 복귀하고, 그립 실패 시 최대 3회 재시도 후 E-STOP으로 전환합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section>
+    <h2>How — 구현 방식</h2>
+    <div class="blocks">
+      <div class="block">
+        <h3><span class="n">01</span>웍질 속도 · 블렌딩 제어</h3>
+        <ul>
+          <li>J2·J5를 역방향으로 동시 회전시켜 각속도를 분산</li>
+          <li>radius blending으로 세트 내 감속을 제거하고 마지막 1회만 정지 → 화구 간섭 방지</li>
+          <li>복귀 구간의 속도·가속을 더 크게 주어 재료가 관성으로 떠오르도록 유도</li>
+        </ul>
+      </div>
+      <div class="block">
+        <h3><span class="n">02</span>모션 최적화 (강화학습)</h3>
+        <ul>
+          <li>MuJoCo 상에서 SAC로 웍질 정책을 학습 (총 750 에피소드)</li>
+          <li>재료량 60/90/120g 조건에서도 궤적 형태가 거의 변하지 않음을 확인</li>
+          <li>하강각 45°·팬 tilt각 25°로 통일하고, 리사주 궤적으로 팬 전면 균일 교반</li>
+        </ul>
+      </div>
+      <div class="block">
+        <h3><span class="n">03</span>관절 속도 한계 극복</h3>
+        <p>J5 단독 회전으로는 관절 최대속도에 걸려 뒤집기가 불가능했습니다. 프라이팬에서 가장 먼 J2까지 함께 돌려 <b>J2·J3·J5로 회전을 분산</b>해 TCP 속도를 확보했습니다.</p>
+      </div>
+      <div class="block">
+        <h3><span class="n">04</span>힘 제어 기반 교반</h3>
+        <p>팬 바닥 높이 편차와 재료 두께 변화로 위치 제어에 한계가 있어, 목표 접촉력 Fz −10N을 유지하고 <b>조건을 통과한 뒤에만</b> 교반을 시작하도록 해 헛젓기를 방지했습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TROUBLE SHOOTING -->
+  <section>
+    <h2>Trouble Shooting</h2>
+
+    <div class="ts">
+      <div class="ts-head">웍질 중 모션이 끊기고 재료가 섞이지 않는 문제</div>
+      <div class="ts-row">
+        <span class="tag problem">Problem</span>
+        <div>속도가 낮으면 재료가 섞이지 않고, 높이면 안전 모드에 걸려 모션이 끊겼습니다. 종료 후 블렌딩 영향으로 복귀 경로에서 위치 오차와 화구 간섭도 발생했습니다.</div>
+      </div>
+      <div class="ts-row">
+        <span class="tag cause">Cause</span>
+        <div>단일 관절 회전만으로는 화구를 회피하면서 충분히 빠른 매끄러운 궤적을 만들 수 없었습니다.</div>
+      </div>
+      <div class="ts-row">
+        <span class="tag fix">Solution</span>
+        <div>
+          <ul>
+            <li>radius blending 적용으로 간섭 제거, 웍질 속도 1.0배 → 1.25배로 상향</li>
+            <li>복귀 구간의 속도·가속을 더 크게 주어 재료가 관성으로 떠오르도록 조정</li>
+            <li>마지막 웍질만 blending radius를 0으로 두어 정확한 정지 위치 확보</li>
+            <li>복귀 시 Via Point(Z=286mm) 추가로 화구와의 충돌 방지</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts">
+      <div class="ts-head">웍 손잡이를 헛잡는 문제</div>
+      <div class="ts-row">
+        <span class="tag problem">Problem</span>
+        <div>웍 손잡이 파지 시 그리퍼가 미끄러지거나 회전하면서 웍을 놓치는 현상이 반복됐습니다.</div>
+      </div>
+      <div class="ts-row">
+        <span class="tag cause">Cause</span>
+        <div>RG2 그리퍼와 손잡이의 접촉 면적이 좁고 파지 방향이 일정하지 않아, 위치 오차가 생기면 회전 모멘트가 커졌습니다.</div>
+      </div>
+      <div class="ts-row">
+        <span class="tag fix">Solution</span>
+        <div>3D 프린팅 보조 지그를 제작하고, Modbus TCP로 그리퍼 폭을 실시간으로 읽어 <b>56±2mm</b> 기준으로 파지 성공을 검증했습니다. 범위를 벗어나면 최대 3회 자동 재파지, 초과 시 E-STOP으로 작업자 확인을 요구합니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section>
+    <h2>Result</h2>
+    <div class="blocks">
+      <div class="block">
+        <h3>자동 동작 검증</h3>
+        <p>UI 주문 → 관리자 모드 시작 → 웍질/뒤집기 → 플레이팅까지 한 흐름으로 완주했습니다.</p>
+      </div>
+      <div class="block">
+        <h3>웍질과 뒤집기</h3>
+        <ul>
+          <li>웍질 속도를 1.25배로 늘려 재료 섞기 성공</li>
+          <li>로봇 조인트를 여러 개로 분산해 안전정지 없이 빠른 속도와 힘을 확보</li>
+          <li>→ 뒤집기 성공률 95% 확보</li>
+        </ul>
+      </div>
+      <div class="block">
+        <h3>기대 효과</h3>
+        <ul>
+          <li>조리 시간 단축과 품질 표준화로 운영 효율 향상</li>
+          <li>위험 작업 대체로 안전한 주방 환경 조성</li>
+          <li>인력 부족을 로봇으로 대체 가능</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEARNINGS -->
+  <section>
+    <h2>Learnings</h2>
+    <div class="learn">
+      <div class="block">
+        <h3>분산 제어 사고</h3>
+        <p>하나의 관절에 의존하지 않고 여러 관절로 부담을 나누는 유연한 접근으로 물리적 한계를 극복할 수 있다는 것을 배웠습니다.</p>
+      </div>
+      <div class="block">
+        <h3>자연스러운 움직임 설계</h3>
+        <p>궤적만 따라 해서는 사람 동작처럼 나오지 않았습니다. 속도·힘을 강하게 주는 구간을 찾아야 원하는 모션이 나온다는 걸 알게 됐습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="detail-foot">
+    <a class="btn" href="../../index.html#projects">← 프로젝트 목록</a>
+    <a class="btn primary" href="../dittobot/index.html">다음 프로젝트 →</a>
+  </div>
+
+</main>
+
+<footer>
+  © 2026 임동욱 — Robotics Engineer · Seoul, Korea
+</footer>
+
+<script src="../../assets/main.js"></script>
+</body>
+</html>
